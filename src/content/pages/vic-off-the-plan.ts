@@ -1,6 +1,5 @@
 import { definePage } from '../../lib/page-types';
 
-// STUB: to be written (see CONTRIBUTING-PAGES.md).
 export default definePage({
   id: 'vic-off-the-plan',
   path: '/vic/off-the-plan-concession/',
@@ -9,14 +8,51 @@ export default definePage({
   order: 30,
   mini: 'vicOffPlan',
   nav: 'VIC off-the-plan concession',
-  card: 'STUB',
-  title: 'STUB vic-off-the-plan',
-  description: 'STUB',
-  h1: 'VIC off-the-plan concession',
-  intro: 'STUB',
-  resume: 'STUB',
-  faqs: [],
-  body: () => '<p>STUB</p>',
-  related: [],
-  sources: [],
+  card: 'Duty on the price less construction still to come, open to every strata buyer until 21 April 2027.',
+  title: 'Off the Plan Stamp Duty VIC 2026: Construction Deduction',
+  description: 'Off the plan stamp duty Victoria 2026: duty on the price less construction still to come, for any strata buyer to 21 April 2027. FPAD stays on the full price.',
+  h1: 'The Victorian off-the-plan duty concession',
+  intro: 'Victoria lowers the value that duty is charged on when you buy before or during construction; here is how the deduction works, who can use it until April 2027, and where it stops.',
+  resume: (h) => `Buying off the plan in Victoria means duty is charged on the contract price minus the construction costs still to be incurred after the contract date, so a ${h.aud(1000000)} purchase with ${h.aud(400000)} of building still to come is assessed on ${h.aud(h.calc('vic', 1000000, 'investor', 'offplan', false, { vicConstruction: 400000 }).dutiable)} and pays ${h.duty('vic', 1000000, 'investor', 'offplan', false, { vicConstruction: 400000 })} instead of ${h.duty('vic', 1000000, 'investor')}. That is the State Revenue Office's own example of Michelle, worked at today's scale. For contracts signed from ${h.date(h.P.states.vic.otp_temp.from)} until ${h.date(h.P.states.vic.otp_temp.until)}, a temporary concession lets every buyer use the deduction on an apartment, unit or townhouse in a strata subdivision with common property: investors and companies included, with no value cap. Outside that window, or for other property, the deduction is reserved for principal place of residence and first home buyers whose value after the deduction stays within ${h.aud(h.P.states.vic.ppr_to)} or ${h.aud(h.P.states.vic.fhb.cap)}. Foreign purchaser additional duty is never reduced: it stays at ${h.pct(h.P.states.vic.surcharge, 0)} of the full price.`,
+  faqs: (h) => [
+    { q: 'Can an investor use the Victorian off-the-plan concession in 2026?', a: `Yes, on a strata apartment, unit or townhouse with common property, if the contract is signed by ${h.date(h.P.states.vic.otp_temp.until)}. The temporary concession has no buyer test and no value cap. An investor signing for an ${h.aud(800000)} apartment with ${h.aud(320000)} of construction to come pays ${h.duty('vic', 800000, 'investor', 'offplan', false, { vicConstruction: 320000 })} rather than ${h.duty('vic', 800000, 'investor')}.` },
+    { q: 'What happens to the Victorian off-the-plan concession after 21 April 2027?', a: `The temporary version, open to all buyers, covers contracts up to ${h.date(h.P.states.vic.otp_temp.until)}. After that only the standing concession remains, for buyers who will live in the property: a first home buyer whose value after the deduction is ${h.aud(h.P.states.vic.fhb.cap)} or less, or a principal place of residence buyer at ${h.aud(h.P.states.vic.ppr_to)} or less.` },
+    { q: 'Is foreign purchaser additional duty reduced on a Victorian off-the-plan purchase?', a: `No. The SRO calculates FPAD on the price before any off-the-plan deduction. A foreign buyer of an ${h.aud(800000)} apartment with ${h.aud(320000)} still to build pays reduced land transfer duty of ${h.aud(h.calc('vic', 800000, 'investor', 'offplan', true, { vicConstruction: 320000 }).duty)} but FPAD of ${h.aud(h.calc('vic', 800000, 'investor', 'offplan', true, { vicConstruction: 320000 }).surcharge)} on the whole price, so the concession trims the smaller bill only.` },
+    { q: 'Does the Victorian off-the-plan concession cover a house and land package?', a: `Not under the temporary rule, which is limited to lots in a strata subdivision with common property. A house and land package bought before construction can still use the standing concession if you will live there and the value after the deduction is no more than ${h.aud(h.P.states.vic.fhb.cap)} for a first home buyer or ${h.aud(h.P.states.vic.ppr_to)} for a principal place of residence buyer.` },
+    { q: 'How is the construction deduction worked out when a Victorian building is half finished?', a: `Only the costs still to be incurred after the contract date come off. In the SRO's example, Jordan signs for ${h.aud(1200000)} when the building is about half complete, and ${h.aud(250000)} is deducted. Duty is then charged on ${h.aud(1200000 - 250000)}: ${h.duty('vic', 1200000, 'investor', 'offplan', false, { vicConstruction: 250000 })} at the general scale, against ${h.duty('vic', 1200000, 'investor')} on the full price.` },
+    { q: 'Can a Victorian first home buyer combine the off-the-plan deduction with the exemption?', a: `Yes, and the order matters. The deduction comes first, then the first home thresholds are applied to what is left. A ${h.aud(620000)} contract with ${h.aud(465000)} of construction to come, the SRO's example of Paige, leaves a dutiable value of ${h.aud(620000 - 465000)}, well under ${h.aud(h.P.states.vic.fhb.exempt_to)}, so an eligible first buyer pays ${h.duty('vic', 620000, 'first', 'offplan', false, { vicConstruction: 465000 })}.` },
+  ],
+  body: (h) => `
+<h2>The deduction: what comes off the price</h2>
+<p>When you sign before a building is finished, part of what you are paying for does not exist yet. Victoria's ${h.src('vic_otp', 'off-the-plan duty concession')} recognises that by excluding from the dutiable value the construction costs that will be incurred after the contract date. Land, and work already done, stay in.</p>
+<p>The earlier you sign, the bigger the deduction. The same ${h.aud(900000)} apartment, bought at four stages, shows the effect on an investor under the temporary concession:</p>
+${h.table(['Construction still to come', 'Dutiable value', 'Land transfer duty', 'Saved against full price'], [450000, 300000, 150000, 0].map((c) => { const r = h.calc('vic', 900000, 'investor', 'offplan', false, { vicConstruction: c }); return [h.aud(c), h.aud(r.dutiable), h.aud(r.duty), h.aud(r.saving)]; }), `A ${h.aud(900000)} strata apartment, contract within the temporary window`, ['l', 'r', 'r', 'r'])}
+
+<h2>Two regimes, one deduction</h2>
+<h3>The temporary strata concession</h3>
+<p>For contracts signed from ${h.date(h.P.states.vic.otp_temp.from)} to ${h.date(h.P.states.vic.otp_temp.until)}, the ${h.src('vic_otp_temp', 'temporary concession')} opens the deduction to every buyer of a lot in a strata subdivision that includes common property: apartments, units and townhouses. Investors qualify, and so do companies. There is no ceiling on the value. A freestanding house on its own title sits outside it.</p>
+<h3>The standing concession</h3>
+<p>Outside that window, or for property the temporary rule does not cover, the deduction is available only to buyers who will live in the home, and only below a ceiling measured after the deduction: ${h.aud(h.P.states.vic.fhb.cap)} for a first home buyer and ${h.aud(h.P.states.vic.ppr_to)} for a principal place of residence buyer. An investor buying a house and land package off the plan in this situation pays duty on the full contract price.</p>
+
+<h2>The SRO's three examples, recalculated</h2>
+<p>The office illustrates the concession with three buyers. Their dutiable values come from the SRO; the duty below is our calculation of what each would pay at the current scale, by profile.</p>
+${h.table(['Buyer', 'Price', 'Deducted', 'Dutiable value', 'Investor or general', 'First home buyer'], [['Michelle', 1000000, 400000], ['Jordan (half built)', 1200000, 250000], ['Paige', 620000, 465000]].map(([n, p, c]) => [String(n), h.aud(Number(p)), h.aud(Number(c)), h.aud(Number(p) - Number(c)), h.duty('vic', Number(p), 'investor', 'offplan', false, { vicConstruction: Number(c) }), h.duty('vic', Number(p), 'first', 'offplan', false, { vicConstruction: Number(c) })]), 'Off-the-plan examples from the State Revenue Office', ['l', 'r', 'r', 'r', 'r', 'r'])}
+<p>Michelle's case shows the concession meeting the first home exemption: her value after deduction lands exactly on ${h.aud(h.P.states.vic.fhb.exempt_to)}, so as a first buyer she would pay nothing on a ${h.aud(1000000)} contract. Jordan, signing at the halfway mark, keeps most of his price in the dutiable value and none of the first home relief, because ${h.aud(950000)} is above ${h.aud(h.P.states.vic.fhb.cap)}. Paige, with a cheaper contract and most of the building still ahead, is assessed on so little that even an investor would pay only ${h.duty('vic', 620000, 'investor', 'offplan', false, { vicConstruction: 465000 })}.</p>
+
+<h2>One ${h.aud(850000)} townhouse, three buyers</h2>
+<p>Take a strata townhouse at ${h.aud(850000)} with ${h.aud(300000)} of construction still to come, signed inside the temporary window. The dutiable value is ${h.aud(850000 - 300000)} for everyone, but what each buyer does with it differs.</p>
+${h.table(['Buyer', 'Duty after the deduction', 'Duty on the full price', 'Rule that applies'], [['Investor', 'investor'], ['Owner-occupier, owned before', 'owner'], ['First home buyer', 'first']].map(([n, b]) => { const r = h.calc('vic', 850000, b as 'investor', 'offplan', false, { vicConstruction: 300000 }); return [n, h.aud(r.total), h.duty('vic', 850000, b as 'investor'), r.rule]; }), 'Strata townhouse, contract between October 2024 and April 2027', ['l', 'r', 'r', 'l'])}
+<p>The investor gains from the deduction alone. The owner-occupier gains twice, because a dutiable value of ${h.aud(850000 - 300000)} sits right on the ${h.aud(h.P.states.vic.ppr_to)} ceiling of the principal place of residence rates. The first home buyer lands below ${h.aud(h.P.states.vic.fhb.exempt_to)} and pays nothing at all on a contract that would otherwise cost ${h.duty('vic', 850000, 'first')}. For a first buyer, the stage of construction at the contract date is worth checking before signing.</p>
+
+<h2>Foreign buyers: the deduction stops at FPAD</h2>
+<p>Foreign purchaser additional duty, ${h.pct(h.P.states.vic.surcharge, 0)} since 1 July 2019, is calculated on the price before the off-the-plan concession. A foreign investor gets the lower land transfer duty under the temporary rule, but the larger of the two bills is untouched.</p>
+${h.table(['Price', 'Construction to come', 'Land transfer duty', 'FPAD', 'Total'], [[650000, 260000], [800000, 320000], [1200000, 480000]].map(([p, c]) => { const r = h.calc('vic', p, 'investor', 'offplan', true, { vicConstruction: c }); return [h.aud(p), h.aud(c), h.aud(r.duty), h.aud(r.surcharge), h.aud(r.total)]; }), 'Foreign purchaser buying a strata apartment off the plan', ['l', 'r', 'r', 'r', 'r'])}
+<p>The full rules for foreign buyers in each state are on the ${h.a('foreign-buyer-stamp-duty', 'foreign buyer page')}.</p>
+
+<h2>Settlement and the grant</h2>
+<p>An off-the-plan home is a new home, so a first buyer at ${h.aud(h.P.states.vic.fhog.cap)} or less can also receive the ${h.aud(h.P.states.vic.fhog.amount)} First Home Owner Grant. For a buyer who is not a first home buyer, the ${h.a('vic-ppr', 'principal place of residence concession')} uses the same after-deduction value, which is why a ${h.aud(750000)} apartment with ${h.aud(250000)} of construction to come can fall inside the PPR range and pay ${h.duty('vic', 750000, 'owner', 'offplan', false, { vicConstruction: 250000 })}.</p>
+<p>New South Wales takes the opposite approach to off-the-plan buyers: it does not cut the duty, it lets owner-occupiers pay later, as the ${h.a('nsw-off-the-plan', 'NSW off-the-plan page')} explains.</p>
+`,
+  related: ['vic', 'vic-first-home-buyers', 'vic-ppr', 'off-the-plan-stamp-duty', 'nsw-off-the-plan', 'foreign-buyer-stamp-duty'],
+  sources: ['vic_otp', 'vic_otp_temp', 'vic_fpad', 'vic_general'],
 });

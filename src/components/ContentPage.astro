@@ -15,7 +15,7 @@ import { label } from '../i18n/nav';
 import { t } from '../i18n/ui';
 import { pageById, PAGES } from '../lib/pages';
 import { helpers } from '../lib/helpers';
-import { SOURCES, STATE_INFO, type StateCode } from '../lib/engine/params';
+import { SOURCES, STATE_INFO, STATES, type StateCode } from '../lib/engine/params';
 import { articleSchema, faqSchema, breadcrumbSchema, webPageSchema, webApplicationSchema } from '../lib/seo';
 import { AUTHOR_NAME } from '../data/site-config';
 import type { PageDef } from '../lib/page-types';
@@ -43,6 +43,11 @@ const related = page.related.filter((id) => ROUTES.some((r) => r.id === id)).map
 const sources = page.sources.map((k) => ({ name: SOURCES[k].label, url: SOURCES[k].url }));
 const methodHref = route('method', lang);
 const target = page.miniHref ?? hub?.id ?? 'home';
+// Page context for the mini-calculators (RECETTE §9.3): a state page opens them on its state,
+// a price page on its price. Only inputs a spec actually has are touched.
+const stateIdx = (STATES as readonly string[]).indexOf(page.group);
+const priceMatch = page.kind === 'price' ? page.id.match(/(\d{6,})/) : null;
+const miniDefaults: Record<string, number> = { ...(stateIdx >= 0 ? { s: stateIdx + 1 } : {}), ...(priceMatch ? { p: Number(priceMatch[1]) } : {}) };
 const miniHref = ROUTES.some((r) => r.id === target) && target !== page.id ? route(target, lang) : undefined;
 ---
 <PageLayout title={page.title} description={page.description} lang={lang} jsonLd={jsonLd} faqs={faqList} related={related} sources={sources} breadcrumbs={crumbs}>
@@ -60,11 +65,11 @@ const miniHref = ROUTES.some((r) => r.id === target) && target !== page.id ? rou
     ) : (
       <>
         <Clamp text={resumeText} lang={lang} id={`clamp-${page.id}`} class="mb-6" />
-        {page.mini && <MiniSim client:load kind={page.mini} lang={lang} href={miniHref} />}
+        {page.mini && <MiniSim client:load kind={page.mini} lang={lang} href={miniHref} defaults={miniDefaults} />}
       </>
     )}
     <div class="prose prose-slate max-w-none">
-      {parts.map((p, i) => i % 2 === 0 ? <Fragment set:html={p} /> : <MiniSim client:load kind={p} lang={lang} href={miniHref} />)}
+      {parts.map((p, i) => i % 2 === 0 ? <Fragment set:html={p} /> : <div data-chrome><MiniSim client:load kind={p} lang={lang} href={miniHref} defaults={miniDefaults} /></div>)}
     </div>
   </article>
 </PageLayout>

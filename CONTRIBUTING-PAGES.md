@@ -121,6 +121,8 @@ Tous lus sur la page officielle citée (clé de source entre crochets).
 - FHOG (New Homes) 10 000 $ : neuf ≤ 600 000 $ ; terrain + contrat de construction ≤ 750 000 $ ;
   occuper 12 mois continus dans les 12 mois ; demande dans les 12 mois du settlement [nsw_fhog].
 
+- Exemples officiels relus le 2026-10-05 [nsw_otp] : Sophie (Parramatta, 950 000 $, départ à Singapour), Mark (terrain 450 000 $, pas de report), Mei et David (visa 482, pas de report, surtaxe sur la part de David).
+
 **VIC**
 - Barème général ; au-delà de 960 000 $ : 5,5 % de la valeur entière ; premium 6,5 % au-delà de 2 M$ [vic_general].
 - Concession résidence principale (PPR) : valeur ≤ 550 000 $, pour tout acheteur occupant ; terrain nu
@@ -152,6 +154,7 @@ Tous lus sur la page officielle citée (clé de source entre crochets).
   location de tout le bien avant d'emménager ni dans l'année suivante ; louer une partie possible si on
   continue d'y vivre (baux commencés depuis le 10 septembre 2024) ; démolir avant d'avoir habité fait
   perdre la concession [qld_first_home, qld_home_concession].
+- Exemples officiels [qld_home_concession, qld_first_home] : 550 000 $ → 10 600 $ au lieu de 17 775 $ ; Fiona (citoyenne, 75 %) et Mark (25 %, AFAD sur sa part).
 - AFAD 8 % [qld_afad]. FHOG 30 000 $ (contrats depuis le 20 novembre 2023), neuf < 750 000 $, citoyen ou
   résident permanent, revenu sans effet, occuper 6 mois dans l'année [qld_fhog].
 

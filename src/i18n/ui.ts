@@ -1,6 +1,6 @@
 import type { Locale } from './routes';
 const en = {
-  updatedOn: 'Rates checked on', editorialPolicy: 'Editorial policy', contactLabel: 'Contact', reviewedBy: 'Checked by',
+  updatedOn: 'Rates last updated on', editorialPolicy: 'Editorial policy', contactLabel: 'Contact', reviewedBy: 'Checked by',
   skipToContent: 'Skip to content', mainNav: 'Main navigation', breadcrumbLabel: 'Breadcrumb', breadcrumbHome: 'Home', menuOpen: 'Open menu',
   faqTitle: 'Questions buyers ask', relatedCalculators: 'Related calculators and guides', sourcesTitle: 'Official sources for this page', writtenBy: 'Published by',
   asOf: '2026-27 rates', lastUpdated: 'checked on', footerValidated: 'Rates from the eight state and territory revenue offices',

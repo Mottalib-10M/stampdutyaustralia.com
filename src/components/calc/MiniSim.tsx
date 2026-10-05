@@ -10,11 +10,11 @@ import NumberField from '../ui/NumberField';
 import SelectField from '../ui/SelectField';
 import { getSpec } from '../../lib/mini-specs';
 
-interface Props { kind: string; lang?: string; href?: string }
+interface Props { kind: string; lang?: string; href?: string; defaults?: Record<string, number> }
 
-export default function MiniSim({ kind, lang = 'en', href }: Props) {
+export default function MiniSim({ kind, lang = 'en', href, defaults = {} }: Props) {
   const spec = getSpec(kind, lang);
-  const [v, setV] = useState<Record<string, number>>(() => Object.fromEntries(spec.inputs.map((i) => [i.id, i.def])));
+  const [v, setV] = useState<Record<string, number>>(() => Object.fromEntries(spec.inputs.map((i) => [i.id, defaults[i.id] ?? i.def])));
   const out = useMemo(() => spec.run(v), [v, spec]);
   const set = (id: string) => (x: number) => setV((o) => ({ ...o, [id]: x }));
   return (

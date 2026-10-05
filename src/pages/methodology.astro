@@ -1,0 +1,69 @@
+---
+/**
+ * Methodology: formulas per jurisdiction, validation against official calculators, every source with
+ * its reading date (and archive capture where the office blocks automated readers), and the limits.
+ * All values from params-2026.json.
+ */
+import PageLayout from '../layouts/PageLayout.astro';
+import { route } from '../i18n/routes';
+import { helpers } from '../lib/helpers';
+import { SOURCES, STATES, STATE_INFO, type SourceKey } from '../lib/engine/params';
+import { webPageSchema, breadcrumbSchema } from '../lib/seo';
+import { displayDate } from '../lib/format';
+const lang = 'en';
+const h = helpers();
+const P = h.P.states;
+const d = (iso: string) => displayDate(iso, 'en-AU');
+const path = route('method', lang);
+const description = 'How the stamp duty calculator computes each state in 2026-27: scales, rounding per $100, concessions, surcharges, grants and tests against official calculators.';
+const jsonLd = [webPageSchema({ name: 'Methodology', description, path, lang }), breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Methodology', path }])];
+const srcRows = (Object.keys(SOURCES) as SourceKey[]).map((k) => {
+  const s = SOURCES[k];
+  return [`<a href="${s.url}" rel="nofollow noopener" target="_blank">${s.label}</a>`, d(s.read), s.via ? `<a href="${s.via}" rel="nofollow noopener" target="_blank">capture of ${d(s.captured!)}</a>` : 'read directly'];
+});
+---
+<PageLayout title="Stamp duty methodology 2026-27: how each state is computed" description={description} lang={lang} jsonLd={jsonLd} breadcrumbs={[{ label: 'Methodology' }]}>
+  <div class="prose prose-slate max-w-none">
+    <h1>How the calculator works</h1>
+    <p>This page sets out what the calculator computes, from which official figures, how it was tested, and what it does not do. Every rate quoted below is read from the same parameter file that drives the calculators, so this page cannot fall out of step with them. Rates were last read on <time datetime={h.P.retrieved_at}>{d(h.P.retrieved_at)}</time> and apply to contracts signed in the {h.P.fy} financial year.</p>
+
+    <h2>The common method</h2>
+    <p>Each jurisdiction charges duty on the dutiable value: the higher of the price and the unencumbered market value. The calculator takes the price you enter as that value. It then applies the jurisdiction's scale, a fixed amount for the bands below plus a rate on the part of the value inside the band. Where the office writes its rates "for every $100, or part of $100" (NSW, Queensland, Western Australia, South Australia, Tasmania, the ACT), the amount above the band floor is rounded up to the next $100 first. Victoria applies its percentages to the exact amount and the Northern Territory uses a formula. Concessions are applied the way each office applies them, the foreign buyer surcharge is added on the full value, and grants are shown separately because they are paid to the buyer.</p>
+
+    <h2>Jurisdiction by jurisdiction</h2>
+    <h3>New South Wales</h3>
+    <p>General scale with a minimum of {h.aud(P.nsw.minimum)}, premium duty from {h.aud(P.nsw.premium_threshold)}. First Home Buyers Assistance Scheme: nil to {h.aud(P.nsw.fhbas.home_exempt_to)} for a home and {h.aud(P.nsw.fhbas.land_exempt_to)} for land; between those values and the caps of {h.aud(P.nsw.fhbas.home_cap)} and {h.aud(P.nsw.fhbas.land_cap)}, the duty at your price less the duty at the exemption threshold multiplied by (cap minus price) over (cap minus threshold). Surcharge purchaser duty {h.pct(P.nsw.surcharge, 0)}.</p>
+    <h3>Victoria</h3>
+    <p>General scale; from {h.aud(P.vic.brackets[3].from)} a flat {h.pct(P.vic.brackets[3].rate)} of the whole value, from {h.aud(P.vic.brackets[4].from)} the premium band. Principal place of residence scale between {h.aud(P.vic.ppr_from)} and {h.aud(P.vic.ppr_to)}. First home buyer and pensioner reductions: nil to {h.aud(P.vic.fhb.exempt_to)}, then the general duty reduced in proportion up to {h.aud(P.vic.fhb.cap)}; the reduction is rounded up to the dollar, as the State Revenue Office's calculator does. Off the plan, the construction cost still to come is deducted from the dutiable value; foreign purchaser additional duty ({h.pct(P.vic.surcharge, 0)}) stays on the full price.</p>
+    <h3>Queensland</h3>
+    <p>Transfer duty scale (nil to {h.aud(P.qld.brackets[1].from)}); home concession scale for owner-occupiers; first home concession on an established home equal to the home concession duty less a fixed amount from the Queensland Revenue Office table (nil from {h.aud(800000)}); full concession on a new home or vacant land for a first home buyer, with no value cap. A foreign buyer pays the transfer duty scale plus additional foreign acquirer duty of {h.pct(P.qld.surcharge, 0)} and, from {d(P.qld.citizenship_rule_from)}, cannot claim the home concessions.</p>
+    <h3>Western Australia</h3>
+    <p>General rate; concessional rate for a home up to {h.aud(P.wa.concessional_cap)}; first home owner rate from {d(P.wa.fhor.from)}: nil to {h.aud(P.wa.fhor.home_exempt_to)}, then ${h.num(P.wa.fhor.home_rate * 100, 2)} per $100 above it to {h.aud(P.wa.fhor.home_cap)} (land: nil to {h.aud(P.wa.fhor.land_exempt_to)}, then ${h.num(P.wa.fhor.land_rate * 100, 2)} per $100 to {h.aud(P.wa.fhor.land_cap)}). Off-the-plan concession for buyers who are not using the first home owner rate, by stage, capped at {h.aud(P.wa.otp.cap)}. Foreign transfer duty {h.pct(P.wa.surcharge, 0)}.</p>
+    <h3>South Australia</h3>
+    <p>Conveyance scale up to {h.aud(P.sa.brackets[8].from)} and {h.pct(P.sa.brackets[8].rate)} above. First home buyer relief: nil on a new home, an off-the-plan apartment or land to build on, at any value; established homes pay the scale. Foreign ownership surcharge {h.pct(P.sa.surcharge, 0)}, which the first home relief does not cover.</p>
+    <h3>Tasmania</h3>
+    <p>Property transfer duty scale with a {h.aud(P.tas.minimum)} minimum. No first home duty concession for transactions settling after {d(P.tas.fhb_established_ended)}. Foreign investor duty surcharge {h.pct(P.tas.surcharge, 0)} on residential property.</p>
+    <h3>Australian Capital Territory</h3>
+    <p>Owner-occupier and non-owner-occupier rate tables from the ACT Revenue Office's own calculator; above {h.aud(P.act.owner_brackets[6].from)}, {h.pct(P.act.owner_brackets[6].rate, 2)} of the whole value. From {d(P.act.hbcs.from)} the Home Buyer Concession Scheme, the pensioner scheme and the off-the-plan unit exemption give nil duty to an eligible owner-occupier at any value. The calculator treats a first home buyer as eligible for the Home Buyer Concession Scheme; the actual test is no interest in any property in the {P.act.hbcs.no_property_years} years before the contract.</p>
+    <h3>Northern Territory</h3>
+    <p>Up to {h.aud(P.nt.formula.upto)}: duty = {h.num(P.nt.formula.a, 8)} × V² + {P.nt.formula.b} × V, with V the value divided by 1,000, as in the Territory's own calculator; then {h.pct(P.nt.flat_bands[0].rate, 2)}, {h.pct(P.nt.flat_bands[1].rate, 2)} from {h.aud(P.nt.flat_bands[1].from)} and {h.pct(P.nt.flat_bands[2].rate, 2)} from {h.aud(P.nt.flat_bands[2].from)} of the whole value. House and land package exemption when the option is ticked for an owner-occupier.</p>
+
+    <h2>How it was tested</h2>
+    <p>The engine's automated tests use two kinds of reference. First, the worked examples the offices print on their own pages: Revenue NSW's auction, premium and family-transfer examples; the Queensland Revenue Office's investment house, home concession and first home examples; RevenueSA's examples at {h.aud(600000)}, {h.aud(650000)}, {h.aud(670000)} and {h.aud(400000)}; RevenueWA's foreign transfer duty example; the State Revenue Office Victoria's principal place of residence and off-the-plan examples. Second, the offices' own calculators queried on {d(h.P.retrieved_at)}: 19 cases on Revenue NSW's transfer duty and First Home Buyers Assistance calculators, and 19 cases on the State Revenue Office Victoria's land transfer duty calculator, across the bands and the concessions. All match within a few cents. A build that misses any of them is not published.</p>
+
+    <h2>What the calculator does not do</h2>
+    <ul>
+      <li>One buyer profile for the whole purchase: no mix of a first home buyer and an investor, no shared equity, no purchase of a share.</li>
+      <li>"Foreign buyer" means every buyer is a foreign person. Mixed purchases pay the surcharge only on the foreign buyer's share.</li>
+      <li>Residential property only: no primary production land, business assets or land over two hectares.</li>
+      <li>The 2026-27 rules only. A contract signed before 1 July 2026 (or before {d(P.qld.citizenship_rule_from)} in Queensland, before {d(P.wa.fhor.from)} in Western Australia) may fall under different thresholds.</li>
+      <li>Eligibility is assumed when you choose a profile: residence periods, prior ownership, citizenship and age tests are explained on each state's pages but not checked.</li>
+      <li>Land titles office transfer and mortgage registration fees are not included.</li>
+    </ul>
+
+    <h2>Every source and its reading date</h2>
+    <p>The ACT Revenue Office, RevenueSA and the Northern Territory Government sites refuse automated readers. Their pages were read through a dated web.archive.org capture of the same official address, shown in the third column. RevenueSA's conveyance scale was read on a 2022 capture of its rates page: the scale is not indexed, and RevenueSA's notice of 28 April 2026 caps its seniors relief at {h.aud(P.sa.seniors_max_relief)}, which is exactly the duty this scale gives on {h.aud(2000000)}.</p>
+    <Fragment set:html={h.table(['Official page', 'Read on', 'How it was read'], srcRows, 'Sources of params-2026.json', ['l', 'l', 'l'])} />
+    <p>Questions or a figure to check: <a href={route('contact', lang)}>contact</a>. How the rates are maintained: <a href={route('editorial', lang)}>editorial policy</a>.</p>
+  </div>
+</PageLayout>

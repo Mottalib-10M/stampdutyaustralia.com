@@ -1,6 +1,5 @@
 import { definePage } from '../../lib/page-types';
 
-// STUB: to be written (see CONTRIBUTING-PAGES.md).
 export default definePage({
   id: 'stamp-duty-changes-2026',
   path: '/guides/stamp-duty-changes/',
@@ -9,14 +8,71 @@ export default definePage({
   order: 5,
   mini: 'changes2026',
   nav: '2026 stamp duty changes',
-  card: 'STUB',
-  title: 'STUB stamp-duty-changes-2026',
-  description: 'STUB',
-  h1: '2026 stamp duty changes',
-  intro: 'STUB',
-  resume: 'STUB',
-  faqs: [],
-  body: () => '<p>STUB</p>',
-  related: [],
-  sources: [],
+  card: 'Every rule that moved in 2026, dated, with the figure before and the figure after.',
+  title: 'Stamp Duty Changes 2026: Old vs New Rules in Every State',
+  description: 'Stamp duty changes in 2026 dated state by state: WA on 7 May, Tasmania on 30 June, the ACT and NSW on 1 July, Queensland on 1 August, with old and new figures.',
+  h1: 'Stamp duty changes in 2026, dated and compared',
+  intro: 'Eight revenue offices, at least a dozen rule changes, and each one tied to a contract or settlement date that decides which version applies to you.',
+  resume: (h) => `The biggest stamp duty changes of 2026 hit first home buyers in Western Australia, Tasmania and the ACT, and the date on your contract or settlement decides whether the old or the new rule applies. On ${h.date(h.P.states.wa.fhor.from)} Western Australia lifted its first home owner rate so that a home is duty free up to ${h.aud(h.P.states.wa.fhor.home_exempt_to)} and concessional up to ${h.aud(h.P.states.wa.fhor.home_cap)}, replacing ${h.aud(500000)} and separate caps for Perth and the regions. Tasmania went the other way: its exemption for first home buyers of established homes up to ${h.aud(h.P.states.tas.fhb_established_cap_until_end)} ended for settlements after ${h.date(h.P.states.tas.fhb_established_ended)}, and its grant fell from ${h.aud(h.P.states.tas.fhog.previous_amount)} to ${h.aud(h.P.states.tas.fhog.amount)}. From ${h.date(h.P.states.act.hbcs.from)} the ACT removed every income and value limit from its Home Buyer Concession Scheme. NSW indexed its thresholds the same day, Queensland added a citizenship test on ${h.date(h.P.states.qld.citizenship_rule_from)}, and Victoria and the Northern Territory extended schemes that were due to close. A sale signed in June and settled in July can sit on both sides of a line.`,
+  faqs: (h) => [
+    { q: 'I signed a contract in Tasmania in May 2026 but settle in August. Do I still get the first home exemption?', a: `The State Revenue Office of Tasmania ties the end of the established-home exemption to settlement, not to the contract: transactions settling after ${h.date(h.P.states.tas.fhb_established_ended)} are outside it. On a ${h.aud(600000)} home that means ${h.duty('tas', 600000, 'first')} of duty instead of nothing. If your settlement date has already passed that line, the general scale applies whatever the contract date.` },
+    { q: 'Does the 7 May 2026 WA first home owner rate apply to a contract signed in April 2026?', a: `RevenueWA applies the new thresholds to transactions from ${h.date(h.P.states.wa.fhor.from)}. A contract dated earlier stays under the previous rate, which exempted homes up to ${h.aud(500000)} and stopped at ${h.aud(700000)} in Perth and Peel or ${h.aud(750000)} elsewhere. Under the new rate a ${h.aud(650000)} home costs ${h.duty('wa', 650000, 'first')}; under the old one the same home was above the full exemption.` },
+    { q: 'Did the ACT Home Buyer Concession Scheme really drop its income test from 1 July 2026?', a: `Yes. For contracts from ${h.date(h.P.states.act.hbcs.from)} the ACT Revenue Office lists no income limit and no property value limit. An eligible buyer pays no conveyance duty at any price, on a new home, an established home or residential land. What remains is the history test: no interest in any property anywhere in the ${h.P.states.act.hbcs.no_property_years} years before the contract, plus one year of living in the home.` },
+    { q: 'Did NSW move the first home buyer thresholds when it indexed transfer duty on 1 July 2026?', a: `No. Revenue NSW indexed the general bands, so the ${h.pct(0.055)} band now starts at ${h.aud(h.P.states.nsw.brackets[5].from)} and premium duty at ${h.aud(h.P.states.nsw.premium_threshold)}, but the First Home Buyers Assistance Scheme still exempts a home up to ${h.aud(h.P.states.nsw.fhbas.home_exempt_to)} and phases out at ${h.aud(h.P.states.nsw.fhbas.home_cap)}. The rate year follows the contract date, not settlement.` },
+    { q: 'What changed for Queensland home concessions on 1 August 2026?', a: `From ${h.date(h.P.states.qld.citizenship_rule_from)} the Queensland Revenue Office requires a buyer claiming the home, first home or first home (new home) concession to be an Australian citizen, a permanent resident or a specified foreign retiree. A temporary visa holder buying a ${h.aud(700000)} home to live in now pays ${h.duty('qld', 700000, 'investor')} at the general rate, against ${h.duty('qld', 700000, 'first')} for an eligible first home buyer.` },
+    { q: 'Until when can I sign an off-the-plan contract under the Victorian temporary concession?', a: `The State Revenue Office Victoria now accepts contracts signed from ${h.date(h.P.states.vic.otp_temp.from)} up to ${h.date(h.P.states.vic.otp_temp.until)} for apartments, units and townhouses in a strata development with common property. Investors and companies qualify, there is no value cap, and the deduction of construction costs still to come applies. The foreign purchaser additional duty is still worked out on the price before the deduction.` },
+  ],
+  body: (h) => {
+    const P = h.P.states;
+    const rows: string[][] = [
+      [h.date('2026-03-12'), 'WA', 'Off-the-plan duty concession widened to survey-strata', 'multi-tier and single-tier strata only', `survey-strata added, scheme runs to ${h.date(P.wa.otp.until)}`],
+      [h.date(P.sa.seniors_from), 'SA', 'Seniors downsizing relief (60 and over)', 'no relief', `up to ${h.aud(P.sa.seniors_max_relief)}`],
+      [h.date(P.wa.fhor.from), 'WA', 'First home owner rate, homes', `no duty to ${h.aud(500000)}, cap ${h.aud(700000)} (Perth, Peel) or ${h.aud(750000)}`, `no duty to ${h.aud(P.wa.fhor.home_exempt_to)}, cap ${h.aud(P.wa.fhor.home_cap)} everywhere`],
+      [h.date(P.wa.fhor.from), 'WA', 'First home owner grant cap', `${h.aud(750000)}`, `${h.aud(P.wa.fhog.cap_south)} south of the 26th parallel, ${h.aud(P.wa.fhog.cap_north)} north`],
+      [h.date(P.tas.fhb_established_ended), 'TAS', 'First home exemption, established homes', `100 % up to ${h.aud(P.tas.fhb_established_cap_until_end)}`, 'ended for settlements after this date'],
+      [h.date(P.tas.otp_ended), 'TAS', 'Off-the-plan apartment concession', 'available', 'ended for contracts after this date'],
+      [h.date(P.tas.fhog.from), 'TAS', 'First Home Owner Grant', h.aud(P.tas.fhog.previous_amount), h.aud(P.tas.fhog.amount)],
+      [h.date(P.act.hbcs.from), 'ACT', 'Home Buyer Concession Scheme', 'income and value limits', 'no limits, no duty if eligible'],
+      [h.date(P.act.pensioner.from), 'ACT', 'Pensioner Duty Concession Scheme', 'value cap', 'no cap, no duty'],
+      [h.date(P.act.otp_unit.from), 'ACT', 'Off-the-plan unit exemption (owner-occupier)', `up to ${h.aud(1020000)}`, 'no cap'],
+      [h.date(P.act.unit_titled.from), 'ACT', 'Newly Unit Titled Duty Exemption', 'did not exist', `new units bought from the developer within ${P.act.unit_titled.within_years_of_plan} years of the plan`],
+      [h.date('2026-07-01'), 'NSW', 'Transfer duty thresholds indexed', '2025/26 bands', `top general band from ${h.aud(P.nsw.brackets[5].from)}, premium from ${h.aud(P.nsw.premium_threshold)}`],
+      [h.date(P.qld.citizenship_rule_from), 'QLD', 'Home and first home concessions', 'no citizenship test', 'citizen, permanent resident or specified foreign retiree'],
+      ['in force', 'VIC', 'Temporary off-the-plan strata concession', 'earlier closing date', `contracts up to ${h.date(P.vic.otp_temp.until)}`],
+      ['in force', 'NT', 'HomeGrown and FreshStart grants', 'earlier closing date', `contracts up to ${h.date(P.nt.fhog.until)}`],
+    ];
+    return `
+<h2>The calendar, in date order</h2>
+<p>Most people meet a duty change the hard way: a conveyancer mentions it a week before settlement. The table puts every 2026 change that affects a home purchase on one line, with the rule as it stood before and the rule as it stands now. Each line was read on the revenue office's own page; the engine behind the calculators on this site already uses the column on the right.</p>
+${h.table(['Date', 'Where', 'What moved', 'Before', 'Now'], rows, 'Stamp duty and grant changes affecting home buyers in 2026', ['l', 'l', 'l', 'l', 'l'])}
+<p>Two kinds of trigger appear in the left column, and they are not interchangeable. Tasmania's exemption ended by <em>settlement</em> date. Western Australia's first home owner rate, the ACT schemes and the NSW indexation follow the <em>contract</em> or transaction date. A buyer who exchanged in one state in June and settles in August can find that one rule changed for them and another did not.</p>
+
+<h2>Western Australia: a higher ceiling from 7 May</h2>
+<p>RevenueWA rewrote the first home owner rate for transactions from ${h.date(P.wa.fhor.from)}. The previous version, in force from ${h.date('2025-03-21')} to ${h.date('2026-05-06')}, gave no duty up to ${h.aud(500000)} and a concessional rate up to ${h.aud(700000)} in Perth and Peel or ${h.aud(750000)} elsewhere. The current version makes no regional distinction: a home is free of duty to ${h.aud(P.wa.fhor.home_exempt_to)}, then charged $${h.num(P.wa.fhor.home_rate * 100, 2)} per $100 above that until the cap of ${h.aud(P.wa.fhor.home_cap)}. Vacant land is free to ${h.aud(P.wa.fhor.land_exempt_to)} and charged $${h.num(P.wa.fhor.land_rate * 100, 2)} per $100 up to ${h.aud(P.wa.fhor.land_cap)}. Eligibility now lines up with the grant rules, established homes included.</p>
+${h.table(['First home price in WA', 'Duty now', 'Buyer who is not a first home buyer'], [550000, 650000, 750000, 800000].map((p) => [h.aud(p), h.duty('wa', p, 'first'), h.duty('wa', p, 'owner')]), 'Western Australia, established home, transactions from 7 May 2026', ['l', 'r', 'r'])}
+<p>The steep rate inside the band is deliberate: by ${h.aud(P.wa.fhor.home_cap)} the first home buyer pays the same as everyone else. The grant cap moved the same day, to ${h.aud(P.wa.fhog.cap_south)} for homes south of the 26th parallel, Perth included, and ${h.aud(P.wa.fhog.cap_north)} north of it. Earlier, on ${h.date(P.wa.otp.from)}, the off-the-plan concession was extended to survey-strata developments and set to run until ${h.date(P.wa.otp.until)}; the ${h.a('wa-off-the-plan', 'WA off-the-plan page')} works through it by stage.</p>
+
+<h2>Tasmania: two concessions closed on 30 June</h2>
+<p>Tasmania is the only jurisdiction where a first home buyer of an established home pays more in late 2026 than a year earlier. The 100 % exemption up to ${h.aud(P.tas.fhb_established_cap_until_end)} covered transactions that settled by ${h.date(P.tas.fhb_established_ended)}. The off-the-plan apartment concession closed for contracts after the same date, and the pensioner downsizing concession had already closed for sales settled by ${h.date('2025-06-30')}.</p>
+${h.table(['Price', 'Settled by 30 June 2026', 'Settled after 30 June 2026'], [500000, 650000, 750000].map((p) => [h.aud(p), h.aud(0), h.duty('tas', p, 'first')]), 'Tasmanian first home buyer, established home', ['l', 'r', 'r'])}
+<p>The First Home Owner Grant for a new home is ${h.aud(P.tas.fhog.amount)} for transactions from ${h.date(P.tas.fhog.from)} to ${h.date(P.tas.fhog.until)}, down from ${h.aud(P.tas.fhog.previous_amount)} in 2025-26. Construction must be finished within 24 months and the home occupied for six months within the first year. Details are on the ${h.a('tas-first-home-buyers', 'Tasmanian first home page')}.</p>
+
+<h2>ACT: four schemes rewritten on 1 July</h2>
+<p>The ACT made the widest change of the year. The Home Buyer Concession Scheme kept its eligibility test (individuals aged 18 or more, no interest in any property in the ${P.act.hbcs.no_property_years} years before the contract, one year of residence starting within a year of settlement) but dropped both the income limit and the value limit. The Pensioner Duty Concession Scheme also lost its value cap. The off-the-plan unit exemption for owner-occupiers, previously limited to units up to ${h.aud(1020000)}, now has no cap. A new Newly Unit Titled Duty Exemption covers a new unit bought from the developer within ${P.act.unit_titled.within_years_of_plan} years of the units plan being registered.</p>
+<p>In money terms, an eligible ACT buyer at ${h.aud(1200000)} now saves the full ${h.duty('act', 1200000, 'owner')} that the owner-occupier rates would charge. The rates themselves did not move: the 2025-27 tables still apply ${h.pct(P.act.owner_brackets[6].rate, 2)} of the whole value above ${h.aud(P.act.owner_brackets[6].from)}. The ${h.a('act-home-buyer-concession', 'ACT Home Buyer Concession page')} covers the eligibility test in full.</p>
+<!--mini:actUnit-->
+
+<h2>NSW and Queensland: quieter, but not nothing</h2>
+<p>Revenue NSW indexes its transfer duty bands every 1 July. For contracts dated from ${h.date('2026-07-01')} the ${h.pct(P.nsw.brackets[4].rate)} band runs from ${h.aud(P.nsw.brackets[4].from)} to ${h.aud(P.nsw.brackets[5].from)}, and premium duty begins at ${h.aud(P.nsw.premium_threshold)}. The first home thresholds were not indexed. On a mid-range price the effect is small; it matters mainly for anyone comparing an old quote with a new one.</p>
+<p>Queensland did not touch its rates. What changed on ${h.date(P.qld.citizenship_rule_from)} is who may claim the concessions: a buyer claiming the home concession, the first home concession or the first home (new home) concession must now be an Australian citizen, a permanent resident or a specified foreign retiree. The occupation rules the Queensland Revenue Office lists alongside it are strict: move in within one year of settlement with no extension, and do not rent out the whole property before moving in. The ${h.a('qld-home-concession', 'Queensland home concession page')} sets them out.</p>
+
+<h2>Victoria, the Territory and South Australia</h2>
+<p>Victoria's temporary off-the-plan concession for strata apartments and townhouses now covers contracts from ${h.date(P.vic.otp_temp.from)} up to ${h.date(P.vic.otp_temp.until)}, for any buyer and with no value cap. In the Northern Territory the ${h.aud(P.nt.fhog.amount)} HomeGrown Territory Grant and the ${h.aud(P.nt.freshstart.amount)} FreshStart New Home Grant run for contracts up to ${h.date(P.nt.fhog.until)}; the ${h.aud(10000)} grant on established homes ended on ${h.date('2025-09-30')}. South Australia introduced seniors downsizing relief for contracts from ${h.date(P.sa.seniors_from)}, worth up to ${h.aud(P.sa.seniors_max_relief)}, which is exactly the duty on ${h.aud(2000000)} under its scale (${h.duty('sa', 2000000, 'investor')}). The ${h.a('pensioner-downsizer-stamp-duty', 'downsizer guide')} covers who it is for.</p>
+
+<h2>What did not change</h2>
+<p>The general scales in Victoria, Queensland, Western Australia, South Australia, Tasmania and the Northern Territory are the same in 2026-27 as in 2025-26. So are the six foreign buyer surcharges, from ${h.pct(P.wa.surcharge, 0)} in Western Australia and South Australia to ${h.pct(P.nsw.surcharge, 0)} in NSW. Queensland's ${h.aud(P.qld.fhog.amount)} grant, Victoria's ${h.aud(P.vic.fhog.amount)} grant and the NSW ${h.aud(P.nsw.fhog.amount)} grant kept their amounts and caps. If a quote you were given last year relied only on those, it still holds.</p>
+`;
+  },
+  related: ['first-home-buyer-stamp-duty', 'wa-first-home-owner-rate', 'tas-first-home-buyers', 'act-home-buyer-concession', 'first-home-owner-grant', 'home'],
+  sources: ['wa_fhor', 'wa_fhog', 'wa_otp', 'tas_fhb', 'tas_concessions', 'tas_fhog', 'act_hbcs', 'act_pensioner', 'act_otp', 'act_unit_titled', 'nsw_rates', 'qld_first_home', 'vic_otp_temp', 'nt_homegrown', 'sa_seniors'],
 });

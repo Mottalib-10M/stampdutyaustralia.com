@@ -1,22 +1,56 @@
 import { definePage } from '../../lib/page-types';
 
-// STUB: to be written (see CONTRIBUTING-PAGES.md).
 export default definePage({
   id: 'vic-ppr',
   path: '/vic/principal-place-of-residence-concession/',
   group: 'vic',
   kind: 'guide',
   order: 50,
-  mini: 'investorState',
+  mini: 'vicQldHome',
   nav: 'VIC PPR concession',
-  card: 'STUB',
-  title: 'STUB vic-ppr',
-  description: 'STUB',
-  h1: 'VIC PPR concession',
-  intro: 'STUB',
-  resume: 'STUB',
-  faqs: [],
-  body: () => '<p>STUB</p>',
-  related: [],
-  sources: [],
+  card: 'Lower duty rates for anyone buying a Victorian home to live in, up to a value of $550,000.',
+  title: 'PPR Concession VIC 2026: Lower Stamp Duty to $550,000',
+  description: 'PPR concession Victoria 2026: anyone buying a home or land to live in pays lower duty rates up to $550,000, e.g. $16,370 instead of $19,070 on a $400,000 home.',
+  h1: 'Victoria\'s principal place of residence concession',
+  intro: 'The concession that is not limited to first home buyers: lower land transfer duty for anyone who will live in a home or on land valued at $550,000 or less.',
+  resume: (h) => `Anyone who buys a Victorian home to live in, first buyer or not, can pay land transfer duty at the lower principal place of residence (PPR) rates when the dutiable value is ${h.aud(h.P.states.vic.ppr_to)} or less. The State Revenue Office's own examples show the size of the cut: a ${h.aud(400000)} home costs ${h.duty('vic', 400000, 'owner')} instead of ${h.duty('vic', 400000, 'investor')}, and a ${h.aud(550000)} home costs ${h.duty('vic', 550000, 'owner')} instead of ${h.duty('vic', 550000, 'investor')}. The reduction comes from a lower rate between ${h.aud(h.P.states.vic.ppr_brackets[2].from)} and ${h.aud(h.P.states.vic.ppr_brackets[3].from)}: ${h.pct(h.P.states.vic.ppr_brackets[2].rate, 0)} instead of ${h.pct(h.P.states.vic.brackets[2].rate, 0)}. Vacant land you will build your home on also qualifies, valued on the land alone. There is no rule about previous ownership, which makes the PPR concession the relief used by second-home movers, separated owners buying again and downsizers below the ceiling. Above ${h.aud(h.P.states.vic.ppr_to)} it disappears completely: ${h.aud(560000)} pays the general ${h.duty('vic', 560000, 'owner')}. First home buyers and eligible pensioners rarely need it, because their own schemes remove duty up to ${h.aud(h.P.states.vic.fhb.exempt_to)}.`,
+  faqs: (h) => [
+    { q: 'Who can claim the PPR concession on Victorian stamp duty?', a: `Any buyer who will use the property as their principal place of residence, with a dutiable value of ${h.aud(h.P.states.vic.ppr_to)} or less. It does not matter whether you have owned before or how many homes you have bought in the past. Investors and holiday home buyers are outside it, because the home has to be where you live.` },
+    { q: 'How much does the Victorian PPR concession save on a $500,000 apartment?', a: `${h.aud(h.calc('vic', 500000, 'investor').total - h.calc('vic', 500000, 'owner').total)}. An owner-occupier pays ${h.duty('vic', 500000, 'owner')} at the PPR rates, while the same apartment bought as an investment carries ${h.duty('vic', 500000, 'investor')}. The saving grows with the price until the ceiling, then drops to nothing in one step at ${h.aud(h.P.states.vic.ppr_to + 1)}, where the general scale takes over for the whole value.` },
+    { q: 'Can I get the Victorian PPR concession on a second purchase after a divorce?', a: `Yes, if the new home is where you will live and its dutiable value is ${h.aud(h.P.states.vic.ppr_to)} or less. Previous ownership is irrelevant to this concession, so a separated owner buying a ${h.aud(480000)} unit pays ${h.duty('vic', 480000, 'owner')} instead of ${h.duty('vic', 480000, 'investor')}. The first home exemption, by contrast, is closed to anyone who has owned before.` },
+    { q: 'Does the Victorian PPR concession apply to vacant land?', a: `Yes. Land on which you will build your home qualifies, and only the land value counts, so the building contract does not push you over ${h.aud(h.P.states.vic.ppr_to)}. A ${h.aud(380000)} lot costs an owner-builder ${h.duty('vic', 380000, 'owner', 'vacant')} at the PPR rates, compared with ${h.duty('vic', 380000, 'investor', 'vacant')} at the general scale.` },
+    { q: 'Why does the Victorian PPR concession make no difference on a $120,000 property?', a: `Because the PPR rates and the general rates are the same up to ${h.aud(h.P.states.vic.ppr_from)}. The concession only starts to bite above that value, where the PPR scale charges ${h.pct(h.P.states.vic.ppr_brackets[2].rate, 0)} instead of ${h.pct(h.P.states.vic.brackets[2].rate, 0)}. A ${h.aud(120000)} unit therefore costs ${h.duty('vic', 120000, 'owner')} whether you live in it or rent it out.` },
+    { q: 'Can a Victorian first home buyer use the PPR concession instead?', a: `A first home buyer meets the PPR test too, but the first home exemption is far better below ${h.aud(h.P.states.vic.ppr_to)}: zero duty instead of PPR rates. The PPR concession only matters to a first buyer who is not eligible for the first home scheme, for example where no buyer is a citizen, New Zealand citizen or permanent resident.` },
+  ],
+  body: (h) => `
+<h2>The PPR rate table</h2>
+<p>The concession is a separate scale, published by the ${h.src('vic_ppr', 'State Revenue Office')}, that replaces the general one when the conditions are met. The first two bands are identical; the difference is in the third and fourth.</p>
+${h.table(['Dutiable value', 'PPR rates', 'General rates'], h.P.states.vic.ppr_brackets.map((b, i, all) => { const to = i < all.length - 1 ? all[i + 1].from : h.P.states.vic.ppr_to; const g = [...h.P.states.vic.brackets].reverse().find((x) => x.from <= b.from)!; return [`${h.aud(b.from)} to ${h.aud(to)}`, `${h.aud(b.base)} plus ${h.pct(b.rate, 1)} above ${h.aud(b.from)}`, `${h.pct(g.rate, 1)} marginal`]; }), 'Victorian principal place of residence scale (up to the ceiling)', ['l', 'l', 'l'])}
+<p>On the PPR scale, ${h.pct(h.P.states.vic.ppr_brackets[2].rate, 0)} applies from ${h.aud(h.P.states.vic.ppr_brackets[2].from)} to ${h.aud(h.P.states.vic.ppr_brackets[3].from)}, then ${h.pct(h.P.states.vic.ppr_brackets[3].rate, 0)} up to the ceiling. The general scale charges ${h.pct(h.P.states.vic.brackets[2].rate, 0)} from ${h.aud(h.P.states.vic.brackets[2].from)}. The saving is therefore one percentage point on the slice between ${h.aud(h.P.states.vic.ppr_brackets[2].from)} and ${h.aud(h.P.states.vic.ppr_brackets[3].from)}, which caps it at ${h.aud(h.calc('vic', 550000, 'investor').total - h.calc('vic', 550000, 'owner').total)}.</p>
+
+<h2>The two SRO examples</h2>
+<p>The office illustrates the concession with two purchases. Both figures below come from our engine and match the SRO's published results.</p>
+${h.table(['Home', 'PPR duty', 'General duty', 'Saved'], [400000, 550000].map((p) => [h.aud(p), h.duty('vic', p, 'owner'), h.duty('vic', p, 'investor'), h.aud(h.calc('vic', p, 'investor').total - h.calc('vic', p, 'owner').total)]), 'Principal place of residence concession, State Revenue Office examples', ['l', 'r', 'r', 'r'])}
+<p>At ${h.aud(400000)} the whole value above ${h.aud(h.P.states.vic.ppr_brackets[2].from)} is still inside the cheaper ${h.pct(h.P.states.vic.ppr_brackets[2].rate, 0)} band, so the saving is one point on ${h.aud(400000 - h.P.states.vic.ppr_brackets[2].from)}. At ${h.aud(550000)} that band is full, the part above ${h.aud(h.P.states.vic.ppr_brackets[3].from)} is charged at ${h.pct(h.P.states.vic.ppr_brackets[3].rate, 0)} on either scale, and the saving has reached its maximum.</p>
+
+<h2>The ceiling is a cliff</h2>
+<p>Most Victorian concessions taper. This one does not. At ${h.aud(h.P.states.vic.ppr_to)} the PPR scale applies in full; one dollar more and the general scale applies to the whole value. A buyer negotiating around that figure should know exactly where it is.</p>
+${h.table(['Price', 'Owner-occupier pays', 'Investor pays', 'Difference'], [300000, 450000, 520000, 550000, 551000, 600000].map((p) => [h.aud(p), h.duty('vic', p, 'owner'), h.duty('vic', p, 'investor'), h.aud(h.calc('vic', p, 'investor').total - h.calc('vic', p, 'owner').total)]), 'Owner-occupier without first home or pensioner relief', ['l', 'r', 'r', 'r'])}
+<p>Going from ${h.aud(550000)} to ${h.aud(551000)} adds ${h.aud(1000)} to the price and ${h.aud(h.calc('vic', 551000, 'owner').total - h.calc('vic', 550000, 'owner').total)} to the duty. When a vendor asks for a little more than ${h.aud(h.P.states.vic.ppr_to)}, the real cost of agreeing includes that jump.</p>
+<p>Put another way, the owner-occupier at ${h.aud(551000)} pays several times the extra ${h.aud(1000)} in additional duty, compared with a neighbour who settled at ${h.aud(550000)}. Above ${h.aud(h.P.states.vic.ppr_to)}, living in the home makes no difference at all to the Victorian duty bill, which is why the owner and investor columns are identical at ${h.aud(600000)}. The calculator above lets you test a price on either side of the ceiling before you bid.</p>
+
+<h2>Who actually relies on it</h2>
+<p>Because the first home and pensioner schemes cover their own buyers more generously, the PPR concession is mostly used by people with no other relief. Four typical cases, all computed at the current scale:</p>
+${h.table(['Buyer', 'Price', 'Duty at PPR rates', 'Duty without it'], [['Couple moving from a flat to a house in Ballarat', 520000], ['Separated parent buying a unit in Geelong', 430000], ['Retiree without a concession card, downsizing', 545000], ['Owner-builder buying a block in Bendigo', 290000]].map(([n, p]) => [String(n), h.aud(Number(p)), h.duty('vic', Number(p), 'owner', String(n).includes('block') ? 'vacant' : 'established'), h.duty('vic', Number(p), 'investor', String(n).includes('block') ? 'vacant' : 'established')]), 'Principal place of residence concession, typical Victorian buyers', ['l', 'r', 'r', 'r'])}
+<p>None of these buyers is a first home buyer, and none holds a pension or concession card. For each of them the PPR scale is the whole of the relief available. The retiree near the ceiling is the one who should watch the price most closely, because a few thousand dollars more would take the purchase past ${h.aud(h.P.states.vic.ppr_to)} and onto the general scale, adding ${h.aud(h.calc('vic', 555000, 'owner').total - h.calc('vic', 545000, 'owner').total)} of duty for a ${h.aud(10000)} increase.</p>
+
+<h2>Land you will build on</h2>
+<p>Vacant land qualifies when the buyer intends to build a home and live in it. The value tested is that of the land only, so a ${h.aud(350000)} block with a ${h.aud(400000)} building contract is a ${h.aud(350000)} purchase for this purpose, and its duty is ${h.duty('vic', 350000, 'owner', 'vacant')} rather than ${h.duty('vic', 350000, 'investor', 'vacant')}.</p>
+
+<h2>How PPR sits beside the other Victorian schemes</h2>
+<p>Two groups rarely need PPR. A first home buyer below ${h.aud(h.P.states.vic.fhb.exempt_to)} is exempt, as explained on the ${h.a('vic-first-home-buyers', 'first home buyer page')}, and an eligible card holder is exempt under the ${h.a('vic-pensioner', 'pensioner reduction')}. For everyone else who will live in the property, PPR is the only general concession, and it works with the ${h.a('vic-off-the-plan', 'off-the-plan deduction')}: the ${h.aud(h.P.states.vic.ppr_to)} ceiling is then measured after the construction still to come is taken off.</p>
+<p>Queensland has a comparable rule, the home concession, with a different shape: it reaches homes of any value, not just those under a ceiling. The calculator at the top of this page puts both states side by side, and the ${h.a('qld-home-concession', 'Queensland home concession page')} explains the rates.</p>
+`,
+  related: ['vic', 'vic-first-home-buyers', 'vic-pensioner', 'vic-off-the-plan', 'qld-home-concession', 'investor-stamp-duty'],
+  sources: ['vic_ppr', 'vic_general', 'vic_fhb'],
 });

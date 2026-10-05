@@ -1,0 +1,17 @@
+# Stamp Duty AU
+
+> Independent calculator of stamp duty (transfer duty, land transfer duty, conveyance duty) in the eight Australian states and territories, at 2026-27 rates, published by Radif Partners. Every rate, threshold, first home concession, First Home Owner Grant and foreign buyer surcharge is read on the revenue office's own page and dated; the engine is tested against Revenue NSW's and the State Revenue Office Victoria's calculators.
+
+## Calculators
+- [Compare all eight states](/): one price, eight jurisdictions, ranked
+- [NSW](/nsw/), [Victoria](/vic/), [Queensland](/qld/), [Western Australia](/wa/), [South Australia](/sa/), [Tasmania](/tas/), [ACT](/act/), [Northern Territory](/nt/)
+
+## Guides
+- [2026 stamp duty changes](/guides/stamp-duty-changes/)
+- [First home buyer stamp duty in every state](/guides/first-home-buyer-stamp-duty/)
+- [First Home Owner Grant by state](/guides/first-home-owner-grant/)
+- [Foreign buyer surcharges](/guides/foreign-buyer-stamp-duty/)
+- [All guides](/guides/) · [Duty by price](/prices/)
+
+## Method
+- [Methodology and sources](/methodology/) · [About](/about/)

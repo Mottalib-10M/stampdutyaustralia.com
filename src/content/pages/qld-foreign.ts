@@ -1,6 +1,5 @@
 import { definePage } from '../../lib/page-types';
 
-// STUB: to be written (see CONTRIBUTING-PAGES.md).
 export default definePage({
   id: 'qld-foreign',
   path: '/qld/additional-foreign-acquirer-duty/',
@@ -9,14 +8,48 @@ export default definePage({
   order: 40,
   mini: 'foreignState',
   nav: 'QLD foreign acquirer duty',
-  card: 'STUB',
-  title: 'STUB qld-foreign',
-  description: 'STUB',
-  h1: 'QLD foreign acquirer duty',
-  intro: 'STUB',
-  resume: 'STUB',
-  faqs: [],
-  body: () => '<p>STUB</p>',
-  related: [],
-  sources: [],
+  card: 'AFAD of 8 % on top of transfer duty, and the loss of home concessions for foreign buyers from 1 August 2026.',
+  title: 'Additional Foreign Acquirer Duty QLD 2026: 8% AFAD Guide',
+  description: 'Additional foreign acquirer duty Queensland 2026: AFAD of 8% on top of transfer duty, and no home concession for foreign buyers from 1 August 2026. Examples.',
+  h1: 'Additional foreign acquirer duty in Queensland',
+  intro: 'Queensland charges foreign buyers of residential land an extra 8 % and, for contracts from 1 August 2026, closes the home concessions to anyone without citizenship, permanent residency or specified foreign retiree status.',
+  resume: (h) => `Additional foreign acquirer duty (AFAD) is an extra ${h.pct(h.P.states.qld.surcharge, 0)} that a foreign person pays on top of ordinary transfer duty when acquiring residential land in Queensland, and since ${h.date(h.P.states.qld.citizenship_rule_from)} the same buyer also loses access to the home and first home concessions. A foreign investor buying a ${h.aud(800000)} house pays ${h.aud(h.calc('qld', 800000, 'investor', 'established', true).duty)} of transfer duty and ${h.aud(h.calc('qld', 800000, 'investor', 'established', true).surcharge)} of AFAD, ${h.duty('qld', 800000, 'investor', 'established', true)} in total. Under the rules for contracts from that August date, a foreign person who intends to live in the home pays exactly the same, because the home concession rate now requires the buyer to be an Australian citizen, a permanent resident or a specified foreign retiree. A first home buyer without that status is in the same position, even on a new home that would otherwise be duty free. Where a citizen and a foreign partner buy together, the Queensland Revenue Office applies the concession to the eligible share only and charges full duty and AFAD on the other, as in its example of Fiona and Mark.`,
+  faqs: (h) => [
+    { q: 'How much AFAD does a foreign buyer pay on a $1 million Brisbane house?', a: `${h.aud(h.calc('qld', 1000000, 'investor', 'established', true).surcharge)}, which is ${h.pct(h.P.states.qld.surcharge, 0)} of the value. Transfer duty at the general scale adds ${h.aud(h.calc('qld', 1000000, 'investor', 'established', true).duty)}, so the total is ${h.duty('qld', 1000000, 'investor', 'established', true)}. Under the rules from ${h.date(h.P.states.qld.citizenship_rule_from)} the figure is the same whether the buyer rents the house out or lives in it.` },
+    { q: 'Can a foreign owner-occupier still get the Queensland home concession?', a: `Not for a contract entered into on or after ${h.date(h.P.states.qld.citizenship_rule_from)}, unless they are a permanent resident or a specified foreign retiree. On a ${h.aud(700000)} home the lost concession is worth ${h.aud(h.calc('qld', 700000, 'investor').total - h.calc('qld', 700000, 'owner').total)}, on top of the AFAD of ${h.aud(h.P.states.qld.surcharge * 700000)} that the buyer pays in any case.` },
+    { q: 'Does a foreign first home buyer pay duty on a new home in Queensland?', a: `Yes. The full new home concession is limited to citizens, permanent residents and specified foreign retirees for contracts from ${h.date(h.P.states.qld.citizenship_rule_from)}. A foreign buyer of a new ${h.aud(650000)} townhouse pays ${h.duty('qld', 650000, 'first', 'new', true)}, where an eligible first home buyer pays ${h.duty('qld', 650000, 'first', 'new')}. The First Home Owner Grant also requires citizenship or permanent residency.` },
+    { q: 'How is AFAD charged when only one Queensland buyer is a foreign person?', a: `On the foreign buyer's interest. In the Queensland Revenue Office's example, Fiona, a citizen, takes 75 % and keeps the home concession on her share; Mark, who is not a citizen, permanent resident or specified foreign retiree, takes 25 % and pays full transfer duty plus AFAD on his. On an ${h.aud(800000)} home, his AFAD would be ${h.aud(h.P.states.qld.surcharge * 800000 * 0.25)}.` },
+    { q: 'Is Queensland AFAD higher than the foreign surcharge in Victoria?', a: `No, the rates are the same: ${h.pct(h.P.states.qld.surcharge, 0)} in Queensland and ${h.pct(h.P.states.vic.surcharge, 0)} in Victoria. The totals differ because the transfer duty underneath differs. On a ${h.aud(1200000)} property a foreign buyer pays ${h.duty('qld', 1200000, 'investor', 'established', true)} in Queensland against ${h.duty('vic', 1200000, 'investor', 'established', true)} in Victoria, where the general scale is heavier at that price.` },
+    { q: 'Who counts as a specified foreign retiree in Queensland?', a: 'The term appears in the home concession conditions for contracts from 1 August 2026, next to citizens and permanent residents, as the third group that can still claim. The Queensland Revenue Office sets out who qualifies and what evidence it needs, and we do not restate that test here. This calculator does not check the status: if you hold it, run the figures as a home buyer rather than a foreign buyer.' },
+  ],
+  body: (h) => `
+<h2>Two charges, one assessment</h2>
+<p>The ${h.src('qld_afad', 'Queensland Revenue Office AFAD page')} describes AFAD as an extra ${h.pct(h.P.states.qld.surcharge, 0)} of duty. For a straightforward purchase of a house or unit, that means the general transfer duty scale plus ${h.pct(h.P.states.qld.surcharge, 0)} of the dutiable value.</p>
+${h.table(['Price', 'Transfer duty (general scale)', 'AFAD', 'Total', 'Share of the price'], [450000, 650000, 800000, 1000000, 1500000, 2500000].map((p) => { const r = h.calc('qld', p, 'investor', 'established', true); return [h.aud(p), h.aud(r.duty), h.aud(r.surcharge), h.aud(r.total), h.pct(r.total / p)]; }), 'Foreign person buying residential land in Queensland alone', ['l', 'r', 'r', 'r', 'r'])}
+<p>The AFAD column is larger than the transfer duty at every price in the table. For a foreign buyer the ${h.pct(h.P.states.qld.surcharge, 0)} is therefore the main cost of the purchase, not a detail added to it.</p>
+
+<h2>What changed on 1 August 2026</h2>
+<p>For contracts from ${h.date(h.P.states.qld.citizenship_rule_from)}, the ${h.src('qld_home_concession', 'home concession')} and the first home concessions require the buyer to be an Australian citizen, a permanent resident or a specified foreign retiree. A foreign person living in the home now pays the general scale like an investor, then AFAD on top.</p>
+${h.table(['Home price', 'Eligible owner-occupier', 'Foreign owner-occupier', 'Difference'], [550000, 750000, 950000, 1300000].map((p) => [h.aud(p), h.duty('qld', p, 'owner'), h.duty('qld', p, 'owner', 'established', true), h.aud(h.calc('qld', p, 'owner', 'established', true).total - h.calc('qld', p, 'owner').total)]), 'Buyer who will live in the home, contracts from 1 August 2026', ['l', 'r', 'r', 'r'])}
+<p>The difference column is the AFAD plus the lost home concession, which is worth ${h.aud(h.calc('qld', 950000, 'investor').total - h.calc('qld', 950000, 'owner').total)} at any value from ${h.aud(h.P.states.qld.home_brackets[1].from)} up. On the ${h.aud(950000)} home that the office uses as its example, the eligible buyer pays ${h.duty('qld', 950000, 'owner')} and the foreign buyer ${h.duty('qld', 950000, 'owner', 'established', true)}.</p>
+
+<h3>First home buyers without the right status</h3>
+<p>The contrast is starkest for a first home. A citizen or permanent resident buying a new home pays nothing, at any price. A foreign person buying the same new home pays the full scale plus AFAD, and receives no ${h.aud(h.P.states.qld.fhog.amount)} grant either.</p>
+${h.table(['New home price', 'Eligible first home buyer', 'Foreign first home buyer'], [600000, 800000, 1000000].map((p) => [h.aud(p), h.duty('qld', p, 'first', 'new'), h.duty('qld', p, 'first', 'new', true)]), 'New home, contracts from 1 August 2026', ['l', 'r', 'r'])}
+
+<h2>Mixed couples: the Fiona and Mark example</h2>
+<p>The office illustrates a joint purchase. Fiona is an Australian citizen; Mark is not a citizen, permanent resident or specified foreign retiree. They buy a residence to live in, Fiona taking a 75 % interest and Mark 25 %. Fiona's share qualifies for the home concession. Mark's share is assessed at full transfer duty, and AFAD applies to it as well.</p>
+<p>The office does not give a price, so here is the AFAD side at three values. AFAD on Mark's quarter is ${h.pct(h.P.states.qld.surcharge, 0)} of a quarter of the value. The transfer duty on the whole home falls somewhere between the home concession figure and the general figure, depending on how the office apportions the two shares.</p>
+${h.table(['Home price', 'AFAD on a 25 % interest', 'Whole home at the concession rate', 'Whole home at the general rate'], [600000, 800000, 1000000].map((p) => [h.aud(p), h.aud(h.P.states.qld.surcharge * p * 0.25), h.duty('qld', p, 'owner'), h.duty('qld', p, 'investor')]), 'Fiona and Mark: the range of the bill at different prices', ['l', 'r', 'r', 'r'])}
+<p>For a couple in this position the share structure matters. A larger interest held by the eligible partner reduces the AFAD in direct proportion.</p>
+
+<h2>A temporary resident buying to live in, step by step</h2>
+<p>Take a nurse from overseas, working in Townsville on a temporary visa, who signs in September 2026 for a ${h.aud(560000)} established house she will live in. Three questions decide her bill. Is she a foreign person for AFAD? On a temporary visa she is likely to be one, though the office's definition of a foreign person decides. Can she claim the home concession? Not for a contract signed on or after ${h.date(h.P.states.qld.citizenship_rule_from)}, because she is neither a citizen, a permanent resident nor a specified foreign retiree. Is she a first home buyer? It no longer matters, for the same reason.</p>
+<p>Her duty is therefore the general scale, ${h.aud(h.calc('qld', 560000, 'investor').duty)}, plus AFAD of ${h.aud(h.calc('qld', 560000, 'owner', 'established', true).surcharge)}, for ${h.duty('qld', 560000, 'owner', 'established', true)}. Had she been granted permanent residency before signing, the same house as a first home would have cost ${h.duty('qld', 560000, 'first')}, and as a home for a previous owner ${h.duty('qld', 560000, 'owner')}. For her, residency status is worth more than any negotiation on the price.</p>
+
+<h2>Queensland against the other states</h2>
+<p>Queensland's ${h.pct(h.P.states.qld.surcharge, 0)} matches Victoria and Tasmania, sits below the ${h.pct(h.P.states.nsw.surcharge, 0)} charged in ${h.a('nsw-foreign-purchaser', 'New South Wales')}, and above the ${h.pct(h.P.states.wa.surcharge, 0)} of Western Australia and South Australia. On ${h.aud(800000)} a foreign investor pays ${h.duty('qld', 800000, 'investor', 'established', true)} in Queensland, ${h.duty('nsw', 800000, 'investor', 'established', true)} in NSW and ${h.duty('vic', 800000, 'investor', 'established', true)} in Victoria. The ${h.a('foreign-buyer-stamp-duty', 'national foreign buyer guide')} ranks all eight.</p>
+`,
+  related: ['qld', 'qld-home-concession', 'qld-first-home-buyers', 'foreign-buyer-stamp-duty', 'nsw-foreign-purchaser'],
+  sources: ['qld_afad', 'qld_home_concession', 'qld_rates', 'qld_first_home_new'],
 });
