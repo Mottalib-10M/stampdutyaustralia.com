@@ -1,0 +1,241 @@
+{
+  "_readme": "Every legal parameter of the site lives here, never in a page or a component (RECETTE §4, §17.4). Each value was read on the official page named in `sources`, on the date in `read`. Where the official site refuses automated readers (RevenueSA, ACT Revenue Office, Territory Revenue Office), `via` gives the web.archive.org capture of that same official page that was read, and `captured` its date. Amounts are AUD. Rates are per dollar (0.045 = $4.50 per $100).",
+  "year": 2026,
+  "fy": "2026-27",
+  "retrieved_at": "2026-10-05",
+  "valid_from": "2026-07-01",
+  "valid_to": "2027-06-30",
+  "sources": {
+    "nsw_rates": { "url": "https://www.revenue.nsw.gov.au/taxes-duties-levies-royalties/transfer-duty/understanding-transfer-duty/calculate-transfer-duty", "label": "Revenue NSW, How to calculate transfer duty (2026/27 thresholds and rates, premium duty)", "read": "2026-10-05" },
+    "nsw_fhbas": { "url": "https://www.revenue.nsw.gov.au/grants-schemes/assistance-scheme", "label": "Revenue NSW, First Home Buyers Assistance Scheme", "read": "2026-10-05" },
+    "nsw_fhbas_calc": { "url": "https://www.apps09.revenue.nsw.gov.au/erevenue/calculators/fhba.php", "label": "Revenue NSW, First Home Buyers Assistance calculator (used to test the concession formula)", "read": "2026-10-05" },
+    "nsw_fhog": { "url": "https://www.revenue.nsw.gov.au/grants-schemes/first-home-owner-new-homes-grant", "label": "Revenue NSW, First Home Owner (New Homes) Grant", "read": "2026-10-05" },
+    "nsw_spd": { "url": "https://www.revenue.nsw.gov.au/taxes-duties-levies-royalties/transfer-duty/surcharge-purchaser-duty", "label": "Revenue NSW, Surcharge purchaser duty", "read": "2026-10-05" },
+    "nsw_otp": { "url": "https://www.revenue.nsw.gov.au/taxes-duties-levies-royalties/transfer-duty/understanding-transfer-duty/off-the-plan-property-purchases", "label": "Revenue NSW, Off the plan property purchases (payment deferral)", "read": "2026-10-05" },
+    "vic_general": { "url": "https://www.sro.vic.gov.au/about-us/rates-and-statistics/current-rates/land-transfer-duty-non-principal-place-residence-current-rates", "label": "State Revenue Office Victoria, Land transfer duty, non-principal place of residence (current rates)", "read": "2026-10-05" },
+    "vic_ppr": { "url": "https://www.sro.vic.gov.au/about-us/rates-and-statistics/current-rates/land-transfer-duty-principal-place-residence-current-rates", "label": "State Revenue Office Victoria, Land transfer duty, principal place of residence (current rates)", "read": "2026-10-05" },
+    "vic_fhb": { "url": "https://www.sro.vic.gov.au/buying-property/land-transfer-stamp-duty/concessions-exemptions-and-waivers/first-home-buyers/first-home-buyer-duty-exemption-or-concession", "label": "State Revenue Office Victoria, First home buyer duty exemption or concession", "read": "2026-10-05" },
+    "vic_otp": { "url": "https://www.sro.vic.gov.au/buying-property/land-transfer-stamp-duty/concessions-exemptions-and-waivers/plan-duty-concession-0/understanding-plan-duty-concession", "label": "State Revenue Office Victoria, Understanding the off-the-plan duty concession", "read": "2026-10-05" },
+    "vic_otp_temp": { "url": "https://www.sro.vic.gov.au/buying-property/land-transfer-stamp-duty/concessions-exemptions-and-waivers/plan-duty-concession-0/strata-apartments-and-townhouses-temporary-concession", "label": "State Revenue Office Victoria, Strata apartments and townhouses temporary off-the-plan concession", "read": "2026-10-05" },
+    "vic_pensioner": { "url": "https://www.sro.vic.gov.au/buying-property/land-transfer-stamp-duty/concessions-exemptions-and-waivers/pensioner-and-concession-cardholder-duty-reduction/pensioner-and-concession-cardholder-duty-reduction-contracts-1-july-2023", "label": "State Revenue Office Victoria, Pensioner and concession cardholder duty reduction (contracts from 1 July 2023)", "read": "2026-10-05" },
+    "vic_fhog": { "url": "https://www.sro.vic.gov.au/about-us/rates-and-statistics/current-rates/first-home-owner-grant-current-rates", "label": "State Revenue Office Victoria, First Home Owner Grant (current rates)", "read": "2026-10-05" },
+    "vic_fpad": { "url": "https://www.sro.vic.gov.au/about-us/rates-and-statistics/current-rates/foreign-purchaser-additional-duty-current-rates", "label": "State Revenue Office Victoria, Foreign purchaser additional duty (current rates)", "read": "2026-10-05" },
+    "vic_calc": { "url": "https://www.sro.vic.gov.au/buying-property/land-transfer-stamp-duty/land-transfer-stamp-duty-calculator", "label": "State Revenue Office Victoria, Land transfer duty calculator (used to test the engine)", "read": "2026-10-05" },
+    "qld_rates": { "url": "https://qro.qld.gov.au/duties/transfer-duty/calculate/rates/", "label": "Queensland Revenue Office, Transfer duty rates", "read": "2026-10-05" },
+    "qld_concession_rates": { "url": "https://qro.qld.gov.au/duties/transfer-duty/calculate/concession-rates/", "label": "Queensland Revenue Office, Transfer duty home concession rates", "read": "2026-10-05" },
+    "qld_first_home": { "url": "https://qro.qld.gov.au/duties/transfer-duty/concessions/homes/first-home/", "label": "Queensland Revenue Office, First home concession", "read": "2026-10-05" },
+    "qld_first_home_new": { "url": "https://qro.qld.gov.au/duties/transfer-duty/concessions/homes/first-home-new-home/", "label": "Queensland Revenue Office, First home (new home) concession", "read": "2026-10-05" },
+    "qld_home_concession": { "url": "https://qro.qld.gov.au/duties/transfer-duty/concessions/homes/home-concession/", "label": "Queensland Revenue Office, Home concession", "read": "2026-10-05" },
+    "qld_afad": { "url": "https://qro.qld.gov.au/duties/investors/afad/", "label": "Queensland Revenue Office, Additional foreign acquirer duty (AFAD)", "read": "2026-10-05" },
+    "qld_fhog": { "url": "https://qro.qld.gov.au/property-concessions-grants/first-home-grant/eligibility/", "label": "Queensland Revenue Office, Eligibility for the first home owner grant", "read": "2026-10-05" },
+    "wa_rates": { "url": "https://www.wa.gov.au/organisation/department-of-treasury-and-finance/transfer-duty-assessment", "label": "RevenueWA (Department of Treasury and Finance), Transfer duty assessment: rates of duty", "read": "2026-10-05" },
+    "wa_fhor": { "url": "https://www.wa.gov.au/government/publications/duties-fact-sheet-first-home-owner-rate", "label": "RevenueWA, Duties fact sheet: First home owner rate", "read": "2026-10-05" },
+    "wa_otp": { "url": "https://www.wa.gov.au/service/financial-management/taxation-and-duty/apply-the-plan-duty-concession", "label": "RevenueWA, Apply for an off-the-plan duty concession", "read": "2026-10-05" },
+    "wa_ftd": { "url": "https://www.wa.gov.au/government/publications/foreign-transfer-duty", "label": "RevenueWA, Foreign transfer duty fact sheet", "read": "2026-10-05" },
+    "wa_fhog": { "url": "https://www.wa.gov.au/government/publications/about-the-first-home-owner-grant", "label": "RevenueWA, About the first home owner grant", "read": "2026-10-05" },
+    "sa_rates": { "url": "https://www.revenuesa.sa.gov.au/stamp-duty-land/rate-of-stamp-duty", "label": "RevenueSA, Rate of stamp duty on conveyances", "read": "2026-10-05", "via": "https://web.archive.org/web/20220118004112/https://www.revenuesa.sa.gov.au/stamp-duty-land/rate-of-stamp-duty", "captured": "2022-01-18", "note": "The conveyance scale is not indexed. RevenueSA's notice of 28 April 2026 caps the seniors downsizing relief at $103,830, which is exactly the duty this scale gives on $2,000,000." },
+    "sa_fhb_relief": { "url": "https://www.revenuesa.sa.gov.au/stamp-duty/first-home-buyer-relief/relief-available", "label": "RevenueSA, Stamp duty relief for eligible first home buyers: relief available", "read": "2026-10-05", "via": "https://web.archive.org/web/20250220035512/https://www.revenuesa.sa.gov.au/stamp-duty/first-home-buyer-relief/relief-available", "captured": "2025-02-20" },
+    "sa_fhb_properties": { "url": "https://www.revenuesa.sa.gov.au/stamp-duty/first-home-buyer-relief/eligible-properties", "label": "RevenueSA, First home buyer relief: eligible properties", "read": "2026-10-05", "via": "https://web.archive.org/web/20250219040131/https://www.revenuesa.sa.gov.au/stamp-duty/first-home-buyer-relief/eligible-properties", "captured": "2025-02-19" },
+    "sa_fos": { "url": "https://www.revenuesa.sa.gov.au/stamp-duty/foreign-ownership-surcharge/calculation-of-surcharge", "label": "RevenueSA, Foreign ownership surcharge: calculation", "read": "2026-10-05", "via": "https://web.archive.org/web/20241021033627/https://www.revenuesa.sa.gov.au/stamp-duty/foreign-ownership-surcharge/calculation-of-surcharge", "captured": "2024-10-21" },
+    "sa_fhog": { "url": "https://www.revenuesa.sa.gov.au/FirstHomeOwnerGrant", "label": "RevenueSA, First Home Owner Grant", "read": "2026-10-05", "via": "https://web.archive.org/web/20260114060657/https://www.revenuesa.sa.gov.au/FirstHomeOwnerGrant", "captured": "2026-01-14" },
+    "sa_seniors": { "url": "https://www.revenuesa.sa.gov.au/latest-news/seniors-downsizing-stamp-duty-relief", "label": "RevenueSA, Seniors downsizing stamp duty relief (notice of 28 April 2026)", "read": "2026-10-05", "via": "https://web.archive.org/web/20260428163341/https://www.revenuesa.sa.gov.au/latest-news/seniors-downsizing-stamp-duty-relief", "captured": "2026-04-28" },
+    "tas_rates": { "url": "https://www.sro.tas.gov.au/property-transfer-duties/rates-of-duty", "label": "State Revenue Office of Tasmania, Rates of duty", "read": "2026-10-05" },
+    "tas_fhb": { "url": "https://www.sro.tas.gov.au/property-transfer-duties/concessions-exemptions/first-home-buyers-of-established-homes-duty-relief", "label": "State Revenue Office of Tasmania, First home buyers of established homes duty relief", "read": "2026-10-05" },
+    "tas_concessions": { "url": "https://www.sro.tas.gov.au/property-transfer-duties/concessions-exemptions", "label": "State Revenue Office of Tasmania, Concessions and exemptions", "read": "2026-10-05" },
+    "tas_fids": { "url": "https://www.sro.tas.gov.au/property-transfer-duties/foreign-investor-duty-surcharge/rates-of-surcharge", "label": "State Revenue Office of Tasmania, Foreign investor duty surcharge: rates", "read": "2026-10-05" },
+    "tas_fhog": { "url": "https://www.sro.tas.gov.au/first-home-owner/eligibility", "label": "State Revenue Office of Tasmania, First Home Owner Grant eligibility", "read": "2026-10-05" },
+    "tas_pensioner": { "url": "https://www.sro.tas.gov.au/property-transfer-duties/concessions-exemptions/pensioners-downsizing-to-a-new-home-duty-concession", "label": "State Revenue Office of Tasmania, Pensioners downsizing to a new home duty concession", "read": "2026-10-05" },
+    "act_hbcs": { "url": "https://www.revenue.act.gov.au/home-buyer-assistance/home-buyer-concession-scheme/about-the-home-buyer-concession-scheme", "label": "ACT Revenue Office, About the Home Buyer Concession Scheme", "read": "2026-10-05", "via": "https://web.archive.org/web/20261005100222/https://www.revenue.act.gov.au/home-buyer-assistance/home-buyer-concession-scheme/about-the-home-buyer-concession-scheme", "captured": "2026-10-05" },
+    "act_rates": { "url": "https://www.revenue.act.gov.au/help-and-resources/calculators/calculate-your-conveyance-duty", "label": "ACT Revenue Office, Calculate your conveyance duty (2026-27 rate tables of the official calculator)", "read": "2026-10-05", "via": "https://web.archive.org/web/20260705041411/https://www.revenue.act.gov.au/site-configuration/calculators/apis/conveyance-duty-2026-27", "captured": "2026-07-05" },
+    "act_pensioner": { "url": "https://www.revenue.act.gov.au/home-buyer-assistance/pensioner-duty-concession-scheme", "label": "ACT Revenue Office, Pensioner Duty Concession Scheme", "read": "2026-10-05", "via": "https://web.archive.org/web/20260915080554/https://www.revenue.act.gov.au/home-buyer-assistance/pensioner-duty-concession-scheme", "captured": "2026-09-15" },
+    "act_otp": { "url": "https://www.revenue.act.gov.au/home-buyer-assistance/off-the-plan-unit-duty-exemption", "label": "ACT Revenue Office, Off the Plan Unit Duty Exemption", "read": "2026-10-05", "via": "https://web.archive.org/web/20260915080727/https://www.revenue.act.gov.au/home-buyer-assistance/off-the-plan-unit-duty-exemption", "captured": "2026-09-15" },
+    "act_unit_titled": { "url": "https://www.revenue.act.gov.au/home-buyer-assistance/newly-unit-titled-duty-exemption", "label": "ACT Revenue Office, Newly Unit Titled Duty Exemption", "read": "2026-10-05", "via": "https://web.archive.org/web/20260915080725/https://www.revenue.act.gov.au/home-buyer-assistance/newly-unit-titled-duty-exemption", "captured": "2026-09-15" },
+    "act_fhog": { "url": "https://www.revenue.act.gov.au/home-buyer-assistance/first-home-owner-grant", "label": "ACT Revenue Office, First Home Owner Grant (ceased 1 July 2019)", "read": "2026-10-05", "via": "https://web.archive.org/web/20260712205042/https://www.revenue.act.gov.au/home-buyer-assistance/first-home-owner-grant", "captured": "2026-07-12" },
+    "nt_calc": { "url": "https://nt.gov.au/property/buying-and-selling-a-home/settle-the-sale/stamp-duty-buying-or-selling-a-home/conveyance-calculator", "label": "Northern Territory Government, Land or property transfer stamp duty calculator (formula read in its code)", "read": "2026-10-05", "via": "https://web.archive.org/web/20260611080718/https://nt.gov.au/property/buying-and-selling-a-home/settle-the-sale/stamp-duty-buying-or-selling-a-home/conveyance-calculator", "captured": "2026-06-11" },
+    "nt_stamp_duty": { "url": "https://nt.gov.au/property/buying-and-selling-a-home/settle-the-sale/stamp-duty-buying-or-selling-a-home", "label": "Northern Territory Government, Stamp duty: buying or selling a home", "read": "2026-10-05", "via": "https://web.archive.org/web/20260621134617/https://nt.gov.au/property/buying-and-selling-a-home/settle-the-sale/stamp-duty-buying-or-selling-a-home", "captured": "2026-06-21" },
+    "nt_hlpe": { "url": "https://nt.gov.au/property/home-owner-assistance/stamp-duty-exemption", "label": "Northern Territory Government, House and Land Package Exemption", "read": "2026-10-05", "via": "https://web.archive.org/web/20260611080718/https://nt.gov.au/property/home-owner-assistance/stamp-duty-exemption", "captured": "2026-06-11" },
+    "nt_homegrown": { "url": "https://nt.gov.au/property/home-owner-assistance/buy-build-new-home", "label": "Northern Territory Government, Buying or building a new home: HomeGrown Territory", "read": "2026-10-05", "via": "https://web.archive.org/web/20260514015939/https://nt.gov.au/property/home-owner-assistance/buy-build-new-home", "captured": "2026-05-14" },
+    "nt_assistance": { "url": "https://nt.gov.au/property/home-owner-assistance", "label": "Northern Territory Government, Home owner assistance", "read": "2026-10-05", "via": "https://web.archive.org/web/20260809054955/https://nt.gov.au/property/home-owner-assistance", "captured": "2026-08-09" }
+  },
+  "states": {
+    "nsw": {
+      "rounding": "per100",
+      "minimum": 20,
+      "brackets": [
+        { "from": 0, "base": 0, "rate": 0.0125 },
+        { "from": 18000, "base": 225, "rate": 0.015 },
+        { "from": 38000, "base": 525, "rate": 0.0175 },
+        { "from": 103000, "base": 1662, "rate": 0.035 },
+        { "from": 387000, "base": 11602, "rate": 0.045 },
+        { "from": 1290000, "base": 52237, "rate": 0.055 },
+        { "from": 3870000, "base": 194137, "rate": 0.07 }
+      ],
+      "premium_threshold": 3870000,
+      "fhbas": { "home_exempt_to": 800000, "home_cap": 1000000, "land_exempt_to": 350000, "land_cap": 450000, "residence_months": 12 },
+      "surcharge": 0.09,
+      "fhog": { "amount": 10000, "new_home_cap": 600000, "build_cap": 750000 },
+      "payment": "within 3 months of signing the contract, or at settlement if earlier",
+      "source_keys": ["nsw_rates", "nsw_fhbas", "nsw_fhog", "nsw_spd"]
+    },
+    "vic": {
+      "rounding": "exact",
+      "brackets": [
+        { "from": 0, "base": 0, "rate": 0.014 },
+        { "from": 25000, "base": 350, "rate": 0.024 },
+        { "from": 130000, "base": 2870, "rate": 0.06 },
+        { "from": 960000, "base": 0, "rate": 0.055, "flat": true },
+        { "from": 2000000, "base": 110000, "rate": 0.065 }
+      ],
+      "ppr_brackets": [
+        { "from": 0, "base": 0, "rate": 0.014 },
+        { "from": 25000, "base": 350, "rate": 0.024 },
+        { "from": 130000, "base": 2870, "rate": 0.05 },
+        { "from": 440000, "base": 18370, "rate": 0.06 }
+      ],
+      "ppr_from": 130000,
+      "ppr_to": 550000,
+      "fhb": { "exempt_to": 600000, "cap": 750000 },
+      "pensioner": { "exempt_to": 600000, "cap": 750000 },
+      "otp_temp": { "from": "2024-10-21", "until": "2027-04-21" },
+      "surcharge": 0.08,
+      "fhog": { "amount": 10000, "cap": 750000 },
+      "source_keys": ["vic_general", "vic_ppr", "vic_fhb", "vic_fpad", "vic_otp_temp"]
+    },
+    "qld": {
+      "rounding": "per100",
+      "brackets": [
+        { "from": 0, "base": 0, "rate": 0 },
+        { "from": 5000, "base": 0, "rate": 0.015 },
+        { "from": 75000, "base": 1050, "rate": 0.035 },
+        { "from": 540000, "base": 17325, "rate": 0.045 },
+        { "from": 1000000, "base": 38025, "rate": 0.0575 }
+      ],
+      "home_brackets": [
+        { "from": 0, "base": 0, "rate": 0.01 },
+        { "from": 350000, "base": 3500, "rate": 0.035 },
+        { "from": 540000, "base": 10150, "rate": 0.045 },
+        { "from": 1000000, "base": 30850, "rate": 0.0575 }
+      ],
+      "first_home_table": [
+        { "below": 710000, "deduct": 17350 },
+        { "below": 720000, "deduct": 15615 },
+        { "below": 730000, "deduct": 13880 },
+        { "below": 740000, "deduct": 12145 },
+        { "below": 750000, "deduct": 10410 },
+        { "below": 760000, "deduct": 8675 },
+        { "below": 770000, "deduct": 6940 },
+        { "below": 780000, "deduct": 5205 },
+        { "below": 790000, "deduct": 3470 },
+        { "below": 800000, "deduct": 1735 }
+      ],
+      "first_home_new_full": true,
+      "first_home_land_full": true,
+      "citizenship_rule_from": "2026-08-01",
+      "surcharge": 0.08,
+      "fhog": { "amount": 30000, "below": 750000 },
+      "source_keys": ["qld_rates", "qld_concession_rates", "qld_first_home", "qld_afad"]
+    },
+    "wa": {
+      "rounding": "per100",
+      "brackets": [
+        { "from": 0, "base": 0, "rate": 0.019 },
+        { "from": 120000, "base": 2280, "rate": 0.0285 },
+        { "from": 150000, "base": 3135, "rate": 0.038 },
+        { "from": 360000, "base": 11115, "rate": 0.0475 },
+        { "from": 725000, "base": 28453, "rate": 0.0515 }
+      ],
+      "concessional_brackets": [
+        { "from": 0, "base": 0, "rate": 0.015 },
+        { "from": 120000, "base": 1800, "rate": 0.0404 }
+      ],
+      "concessional_cap": 200000,
+      "fhor": { "from": "2026-05-07", "home_exempt_to": 600000, "home_cap": 800000, "home_rate": 0.1615, "land_exempt_to": 450000, "land_cap": 550000, "land_rate": 0.2014 },
+      "otp": { "from": "2026-03-12", "until": "2028-06-30", "full_to": 800000, "floor_from": 900000, "pre": { "max": 1, "min": 0.5, "step_per_100": 0.0005 }, "under": { "max": 0.75, "min": 0.375, "step_per_100": 0.000375 }, "cap": 50000 },
+      "surcharge": 0.07,
+      "fhog": { "amount": 10000, "cap_south": 800000, "cap_north": 1000000 },
+      "source_keys": ["wa_rates", "wa_fhor", "wa_otp", "wa_ftd"]
+    },
+    "sa": {
+      "rounding": "per100",
+      "brackets": [
+        { "from": 0, "base": 0, "rate": 0.01 },
+        { "from": 12000, "base": 120, "rate": 0.02 },
+        { "from": 30000, "base": 480, "rate": 0.03 },
+        { "from": 50000, "base": 1080, "rate": 0.035 },
+        { "from": 100000, "base": 2830, "rate": 0.04 },
+        { "from": 200000, "base": 6830, "rate": 0.0425 },
+        { "from": 250000, "base": 8955, "rate": 0.0475 },
+        { "from": 300000, "base": 11330, "rate": 0.05 },
+        { "from": 500000, "base": 21330, "rate": 0.055 }
+      ],
+      "fhb_relief": { "from": "2025-02-13", "new_home": true, "vacant_land": true, "established": false, "applies_to_surcharge": false },
+      "seniors_max_relief": 103830,
+      "seniors_from": "2026-03-25",
+      "surcharge": 0.07,
+      "fhog": { "amount": 15000 },
+      "source_keys": ["sa_rates", "sa_fhb_relief", "sa_fos", "sa_fhog"]
+    },
+    "tas": {
+      "rounding": "per100",
+      "minimum": 50,
+      "brackets": [
+        { "from": 0, "base": 50, "rate": 0 },
+        { "from": 3000, "base": 50, "rate": 0.0175 },
+        { "from": 25000, "base": 435, "rate": 0.0225 },
+        { "from": 75000, "base": 1560, "rate": 0.035 },
+        { "from": 200000, "base": 5935, "rate": 0.04 },
+        { "from": 375000, "base": 12935, "rate": 0.0425 },
+        { "from": 725000, "base": 27810, "rate": 0.045 }
+      ],
+      "fhb_established_ended": "2026-06-30",
+      "fhb_established_cap_until_end": 750000,
+      "otp_ended": "2026-06-30",
+      "surcharge": 0.08,
+      "fhog": { "amount": 20000, "from": "2026-07-01", "until": "2027-06-30", "previous_amount": 30000 },
+      "source_keys": ["tas_rates", "tas_fhb", "tas_fids", "tas_fhog"]
+    },
+    "act": {
+      "rounding": "per100",
+      "owner_brackets": [
+        { "from": 0, "base": 0, "rate": 0.0028 },
+        { "from": 260000, "base": 728, "rate": 0.022 },
+        { "from": 300000, "base": 1608, "rate": 0.034 },
+        { "from": 500000, "base": 8408, "rate": 0.0432 },
+        { "from": 750000, "base": 19208, "rate": 0.059 },
+        { "from": 1000000, "base": 33958, "rate": 0.064 },
+        { "from": 1455000, "base": 0, "rate": 0.0454, "flat": true }
+      ],
+      "investor_brackets": [
+        { "from": 0, "base": 0, "rate": 0.012 },
+        { "from": 200000, "base": 2400, "rate": 0.022 },
+        { "from": 300000, "base": 4600, "rate": 0.034 },
+        { "from": 500000, "base": 11400, "rate": 0.0432 },
+        { "from": 750000, "base": 22200, "rate": 0.059 },
+        { "from": 1000000, "base": 36950, "rate": 0.064 },
+        { "from": 1455000, "base": 0, "rate": 0.0454, "flat": true }
+      ],
+      "hbcs": { "from": "2026-07-01", "full_exemption": true, "no_property_years": 5, "previous_cap": 1020000 },
+      "pensioner": { "from": "2026-07-01", "full_exemption": true },
+      "otp_unit": { "from": "2026-07-01", "full_exemption": true },
+      "unit_titled": { "from": "2026-07-01", "full_exemption": true, "within_years_of_plan": 2 },
+      "surcharge": 0,
+      "fhog": { "amount": 0, "ceased": "2019-07-01" },
+      "source_keys": ["act_rates", "act_hbcs", "act_otp", "act_pensioner"]
+    },
+    "nt": {
+      "rounding": "exact",
+      "formula": { "upto": 525000, "a": 0.06571441, "b": 15 },
+      "flat_bands": [
+        { "from": 525000, "rate": 0.0495 },
+        { "from": 3000000, "rate": 0.0575 },
+        { "from": 5000000, "rate": 0.0595 }
+      ],
+      "hlpe": { "from": "2022-07-01", "until": "2027-06-30" },
+      "surcharge": 0,
+      "fhog": { "amount": 50000, "name": "HomeGrown Territory Grant", "until": "2027-09-30" },
+      "freshstart": { "amount": 30000, "until": "2027-09-30" },
+      "payment_days": 60,
+      "source_keys": ["nt_calc", "nt_hlpe", "nt_homegrown", "nt_assistance"]
+    }
+  }
+}

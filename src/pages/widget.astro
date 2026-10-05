@@ -1,0 +1,17 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { route } from '../i18n/routes';
+import { SITE_URL, SITE_NAMES } from '../data/site-config';
+const lang = 'en';
+const code = `<iframe src="${SITE_URL}/embed/stamp-duty/" title="Stamp duty calculator, eight Australian states" width="100%" height="760" style="border:0;max-width:760px" loading="lazy"></iframe>\n<p><a href="${SITE_URL}/">Stamp duty calculator by ${SITE_NAMES[lang]}</a></p>`;
+---
+<PageLayout title="Embed the stamp duty calculator on your site, free 2026" description="Free iframe of the eight-state stamp duty calculator for agents, brokers, councils and forums: 2026-27 rates, first home concessions, no tracking, keep the credit link." lang={lang} noindex={true} breadcrumbs={[{ label: 'Embed' }]}>
+  <div class="prose prose-slate max-w-none">
+    <h1>Embed the calculator</h1>
+    <p>Copy this code into your page. The calculator updates itself when a rate changes; you have nothing to maintain.</p>
+    <pre class="whitespace-pre-wrap text-sm"><code>{code}</code></pre>
+    <h2>Conditions</h2>
+    <ul><li>Free, for any site, commercial or not.</li><li>Keep the credit link under the frame visible.</li><li>Do not present the result as advice or as an assessment.</li></ul>
+    <p>Questions: <a href={route('contact', lang)}>contact</a>.</p>
+  </div>
+</PageLayout>

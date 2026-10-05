@@ -1,0 +1,13 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { route } from '../i18n/routes';
+const lang = 'en';
+---
+<PageLayout title="Cookies on Stamp Duty AU: what this site stores and why" description="This stamp duty site sets no advertising or tracking cookie today. What the browser keeps locally, what the share link contains and how to clear it, explained in full." lang={lang} noindex={true} breadcrumbs={[{ label: 'Cookies' }]} showAuthor={false}>
+  <div class="prose prose-slate max-w-none">
+    <h1>Cookies</h1>
+    <p>The site sets no advertising cookie and no analytics cookie today. The calculators run in your browser and keep nothing once the tab is closed.</p>
+    <p>When you change a calculator, the address bar is updated with your inputs so that you can copy a link to the same result. That link is not sent anywhere by the site; it is shared only if you share it.</p>
+    <p>If an audience measurement tool is added later, this page and the <a href={route('privacy', lang)}>privacy policy</a> will say so before it runs, with a way to refuse it.</p>
+  </div>
+</PageLayout>

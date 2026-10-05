@@ -1,0 +1,15 @@
+---
+import '../../styles/global.css';
+import Comparator from '../../components/calc/Comparator';
+import { route } from '../../i18n/routes';
+import { STATES } from '../../lib/engine/params';
+import { PAGES } from '../../lib/pages';
+import { SITE_URL, SITE_NAMES } from '../../data/site-config';
+const hubHrefs = Object.fromEntries(STATES.map((s) => { const p = PAGES.find((x) => x.group === s && x.kind === 'hub'); return [s, `${SITE_URL}${p ? p.path : '/'}`]; }));
+---
+<!doctype html>
+<html lang="en-AU"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>Stamp duty calculator, eight states</title><meta name="robots" content="noindex" /><link rel="canonical" href={`${SITE_URL}/`} /></head>
+<body class="bg-white p-3 text-navy-900">
+  <main><Comparator client:load hubHrefs={hubHrefs} methodHref={`${SITE_URL}${route('method', 'en')}`} /></main>
+  <p class="mt-2 text-sm"><a href={`${SITE_URL}/`} target="_blank" rel="noopener" class="text-accent-700 underline">Stamp duty calculator by {SITE_NAMES.en}</a> · estimate, not an assessment</p>
+</body></html>

@@ -1,0 +1,27 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { route } from '../i18n/routes';
+import { AUTHOR_NAME, CONTACT_EMAIL, LAST_UPDATED } from '../data/site-config';
+import { personSchema, organizationSchema, profilePageSchema } from '../lib/seo';
+import { displayDate } from '../lib/format';
+const lang = 'en';
+const jsonLd = [organizationSchema(lang), personSchema(lang), profilePageSchema({ path: route('about', lang), lang })];
+---
+<PageLayout title="About Stamp Duty AU: who checks the eight state scales" description="Who publishes this stamp duty calculator, why it covers all eight Australian states and territories in one tool, how it is funded and how to report an error in 2026." lang={lang} jsonLd={jsonLd} breadcrumbs={[{ label: 'About' }]}>
+  <div class="prose prose-slate max-w-none">
+    <h1>About this calculator</h1>
+    <p>Stamp Duty AU is published by {AUTHOR_NAME}, an independent publisher of calculators. It exists for one reason: a person buying a home in Australia should be able to see, in one place and at today's rates, what each state and territory would charge on the same purchase, with the first home concessions applied exactly as the revenue office applies them.</p>
+    <h2>Why one tool for eight jurisdictions</h2>
+    <p>Each revenue office publishes its own calculator, and each of them answers one state only. Bank and broker calculators cover more ground but rarely say which rate year they use, and several still apply schemes that have closed: Tasmania's established-home exemption ended for settlements after 30 June 2026, the ACT removed its income test and value cap on 1 July 2026, and Western Australia lifted its first home thresholds on 7 May 2026. This site reads the eight offices' pages, records the date of each reading, and recalculates every page from that single file of parameters.</p>
+    <p>This site does better than the first Google result because it puts all eight jurisdictions in one calculator at the 2026-27 rates, applies the first home concessions exactly as each office does, rounding included, and shows on the same screen what changed in 2026.</p>
+    <h2>How the figures are checked</h2>
+    <p>Where an office runs a public calculator, ours is compared with it on a grid of prices, not on a single example. On 5 October 2026 the engine matched Revenue NSW's transfer duty and First Home Buyers Assistance calculators on 21 cases and the State Revenue Office Victoria calculator on 16 cases. Worked examples printed by the Queensland Revenue Office, RevenueSA and RevenueWA are test cases too. The detail is on the <a href={route('method', lang)}>methodology page</a>, with every source and its reading date.</p>
+    <h2>What we do not do</h2>
+    <p>We do not sell leads, take referral fees from brokers or conveyancers, or ask for your contact details. Nothing you type in a calculator leaves your browser. The site is not a government website and an estimate here is not an assessment: the duty you owe is the amount on the revenue office's notice.</p>
+    <h2>Funding</h2>
+    <p>The site is free. It may show a small number of clearly marked advertising slots in the future; no advertising is active today and none will ever sit above a calculator.</p>
+    <h2>Corrections</h2>
+    <p>If a figure looks wrong, write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> with the page address, the price and the buyer profile you used. A confirmed error is corrected in the parameter file, which updates every page at once, and noted in the next review. The rules for this are in the <a href={route('editorial', lang)}>editorial policy</a>.</p>
+    <p>Last full review of the eight scales: <time datetime={LAST_UPDATED}>{displayDate(LAST_UPDATED, 'en-AU')}</time>.</p>
+  </div>
+</PageLayout>

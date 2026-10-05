@@ -1,0 +1,20 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import LegalIdentity from '../components/LegalIdentity.astro';
+import { route } from '../i18n/routes';
+import { CONTACT_EMAIL } from '../data/site-config';
+import { contactPageSchema } from '../lib/seo';
+const lang = 'en';
+const d = 'Report an error in a stamp duty figure, ask about embedding the calculator or reach the publisher. We reply to every message about a rate within five working days.';
+---
+<PageLayout title="Contact Stamp Duty AU: report a rate or embed the tool" description={d} lang={lang} noindex={true} jsonLd={[contactPageSchema({ name: 'Contact', description: d, path: route('contact', lang), lang })]} breadcrumbs={[{ label: 'Contact' }]}>
+  <div class="prose prose-slate max-w-none">
+    <h1>Contact</h1>
+    <p>Email: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
+    <p>To report a figure that disagrees with your revenue office notice, send the page address, the state, the price, the buyer profile and the property type, and the amount on the notice if you have it. We check it against the office's own page and reply within five working days.</p>
+    <p>We cannot advise on your personal situation, lodge anything with a revenue office or recommend a conveyancer. For that, your conveyancer or solicitor is the right person.</p>
+    <p>Embedding the calculator on your own site is free: the code is on the <a href={route('widget', lang)}>embed page</a>.</p>
+    <h2>Publisher</h2>
+    <LegalIdentity lang={lang} />
+  </div>
+</PageLayout>

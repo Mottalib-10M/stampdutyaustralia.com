@@ -1,0 +1,106 @@
+---
+/**
+ * Home: the eight-state comparator first, then the answer, then a table per state, the 2026 changes,
+ * the first home thresholds, foreign surcharges and the method. Its own block order (RECETTE §6.6:
+ * trame différente). All amounts come from the engine or params-2026.json.
+ */
+import PageLayout from '../layouts/PageLayout.astro';
+import Comparator from '../components/calc/Comparator';
+import Clamp from '../components/Clamp.astro';
+import { route } from '../i18n/routes';
+import { PAGES } from '../lib/pages';
+import { helpers } from '../lib/helpers';
+import { STATES, STATE_INFO, SOURCES, type StateCode } from '../lib/engine/params';
+import { compareAll } from '../lib/engine/states';
+import { websiteSchema, organizationSchema, faqSchema, webApplicationSchema } from '../lib/seo';
+import { AUTHOR_NAME, LAST_UPDATED } from '../data/site-config';
+import { displayDate } from '../lib/format';
+
+const lang = 'en';
+const h = helpers();
+const P = h.P.states;
+const hub = (s: StateCode) => PAGES.find((p) => p.group === s && p.kind === 'hub');
+const hubHrefs = Object.fromEntries(STATES.map((s) => [s, hub(s) ? route(hub(s)!.id, lang) : '/']));
+const link = (id: string, text: string) => (PAGES.some((p) => p.id === id) ? `<a href="${route(id, lang)}">${text}</a>` : text);
+const title = 'Stamp Duty Calculator Australia 2026: All 8 States Compared';
+const description = 'Stamp duty calculator for every Australian state and territory at 2026-27 rates: first home exemptions, grants and foreign surcharges, compared on one price.';
+const owner800 = compareAll({ price: 800000, buyer: 'owner', property: 'established', foreign: false });
+const first750 = compareAll({ price: 750000, buyer: 'first', property: 'established', foreign: false });
+const lo = owner800[0], hi = owner800[owner800.length - 1];
+const resume = `Stamp duty, called transfer duty, land transfer duty or conveyance duty depending on the state, is a one-off tax the buyer pays to the state or territory revenue office on the dutiable value of a property, which is the higher of the price and the market value. Each of the eight jurisdictions has its own scale, its own first home concession and, in six of them, a surcharge for foreign buyers. On an established home bought for ${h.aud(800000)} by an owner-occupier who is not a first home buyer, the bill ranges from ${h.aud(lo.total)} in ${STATE_INFO[lo.state].name} to ${h.aud(hi.total)} in ${STATE_INFO[hi.state].name}. The calculator above runs the eight scales on your own price, with the 2026-27 thresholds read on each office's page, so you can see where a concession applies, where it stops and how much a grant adds back.`;
+const faqs = [
+  { q: 'Which Australian state has the lowest stamp duty in 2026?', a: `It depends on who is buying. For an owner-occupier paying ${h.aud(800000)} for an established home, ${STATE_INFO[lo.state].name} is cheapest at ${h.aud(lo.total)} and ${STATE_INFO[hi.state].name} dearest at ${h.aud(hi.total)}. For a first home buyer the ACT now charges nothing at any price, and South Australia and Queensland charge nothing on a new home. Run your own price in the comparator above.` },
+  { q: 'Is stamp duty paid on the purchase price or on the property value?', a: 'On the dutiable value, which in every state is the higher of the consideration you pay and the unencumbered market value. Between strangers at arm\'s length they are the same figure. They differ in family sales, gifts and below-market deals, where the office can ask for a valuation and charge duty on it rather than on the price written in the contract.' },
+  { q: 'Can I add stamp duty to my home loan?', a: 'Duty is a cash cost due at or before settlement, so lenders count it among the funds you must show, along with your deposit. Whether part of it can be borrowed is a lending question, not a duty one, and depends on the lender and your loan-to-value ratio. The duty amount itself does not change with how you fund it.' },
+  { q: 'Do first home buyers pay stamp duty in Australia?', a: `Often not, but the line moves by state. In 2026-27 a first home buyer pays no duty up to ${h.aud(P.nsw.fhbas.home_exempt_to)} in NSW, ${h.aud(P.vic.fhb.exempt_to)} in Victoria, ${h.aud(P.wa.fhor.home_exempt_to)} in Western Australia, at any price in the ACT, and at any price on a new home in Queensland and South Australia. Tasmania's exemption for established homes ended with settlements after 30 June 2026.` },
+  { q: 'How much extra stamp duty does a foreign buyer pay?', a: `A surcharge on the full value on top of normal duty: ${h.pct(P.nsw.surcharge, 0)} in NSW, ${h.pct(P.vic.surcharge, 0)} in Victoria, Queensland and Tasmania, ${h.pct(P.wa.surcharge, 0)} in Western Australia and South Australia. The ACT and Northern Territory calculators ask no foreign-buyer question and add no surcharge to duty. A foreign buyer also loses most first home and owner-occupier concessions.` },
+  { q: 'When do I have to pay stamp duty?', a: 'Usually at settlement through your conveyancer, but the legal deadline is earlier in some states: within three months of the contract in NSW and within 60 days of signing in the Northern Territory, or at settlement if that comes first. Paying late draws interest from the deadline, so check your contract dates with your conveyancer.' },
+  { q: 'Are the rates on this calculator the 2025-26 or 2026-27 rates?', a: `The 2026-27 rates, for a contract signed on or after 1 July 2026. Every source was read on ${displayDate(h.P.retrieved_at, 'en-AU')}. NSW indexed its thresholds on 1 July 2026; Victoria, Queensland, Western Australia, South Australia, Tasmania and the Northern Territory kept their general scales; the ACT kept its rates but removed the cap on its first home scheme.` },
+];
+const jsonLd = [websiteSchema(lang), organizationSchema(lang), webApplicationSchema({ name: 'Stamp duty calculator, eight Australian states', description, path: '/', lang }), faqSchema(faqs, lang)];
+const sources = (['nsw_rates', 'vic_general', 'qld_rates', 'wa_rates', 'sa_rates', 'tas_rates', 'act_rates', 'nt_calc'] as const).map((k) => ({ name: SOURCES[k].label, url: SOURCES[k].url }));
+const fhbRow = (s: StateCode) => {
+  const r = (p: number, t: 'established' | 'new' | 'vacant' = 'established') => h.duty(s, p, 'first', t);
+  return [`<a href="${hubHrefs[s]}">${STATE_INFO[s].short}</a>`, r(600000), r(800000), r(1000000), r(800000, 'new')];
+};
+const grantRows = STATES.map((s) => {
+  const g = h.calc(s, 600000, 'first', 'new').grant;
+  return [STATE_INFO[s].short, g.amount ? h.aud(g.amount) : 'none', g.name || (s === 'act' ? 'ceased 1 July 2019' : '')];
+});
+const foreignRows = STATES.map((s) => [STATE_INFO[s].short, P[s].surcharge ? h.pct(P[s].surcharge, 0) : 'none on duty', STATE_INFO[s].surchargeName || '', h.duty(s, 1000000, 'investor', 'established', true)]);
+---
+<PageLayout title={title} description={description} lang={lang} jsonLd={jsonLd} faqs={faqs} sources={sources}>
+  <article>
+    <header class="mb-5">
+      <h1 class="text-3xl font-bold text-navy-900 md:text-4xl">Stamp duty calculator Australia: the eight states on one price</h1>
+      <p class="mt-3 text-lg text-navy-700">Enter a price once and see transfer duty, the first home concession, the foreign buyer surcharge and the grant in every state and territory, at 2026-27 rates.</p>
+      <p class="mt-3 text-sm text-navy-600">Checked by <a href={route('about', lang)} class="underline hover:text-navy-900">{AUTHOR_NAME}</a> · <a href={route('method', lang)} class="underline hover:text-navy-900">How we calculate</a> · rates read on <time datetime={LAST_UPDATED}>{displayDate(LAST_UPDATED, 'en-AU')}</time></p>
+    </header>
+    <Comparator client:load hubHrefs={hubHrefs} methodHref={route('method', lang)} />
+    <Clamp text={resume} lang={lang} id="clamp-home" class="mb-8" />
+
+    <section class="prose prose-slate max-w-none">
+      <h2>One calculator per state, with what makes each one different</h2>
+      <p>The comparator uses a single buyer profile. Each state has details that only its own calculator asks about: the construction cost still to come in a Victorian off-the-plan contract, the stage of a Western Australian development, a pensioner card in Victoria and the ACT, a unit title in the ACT, a builder's house and land package in the Territory. Those calculators are linked below with the figure that matters most in each jurisdiction this year.</p>
+      <Fragment set:html={h.table(['State', 'Revenue office', 'Owner-occupier, $800,000', 'First home, no duty up to', 'Calculator'], STATES.map((s) => [STATE_INFO[s].name, STATE_INFO[s].office, h.duty(s, 800000), s === 'nsw' ? h.aud(P.nsw.fhbas.home_exempt_to) : s === 'vic' ? h.aud(P.vic.fhb.exempt_to) : s === 'qld' ? 'new home: any price' : s === 'wa' ? h.aud(P.wa.fhor.home_exempt_to) : s === 'sa' ? 'new home: any price' : s === 'tas' ? 'no exemption since 1 July 2026' : s === 'act' ? 'any price' : 'house and land package only', `<a href="${hubHrefs[s]}">${STATE_INFO[s].short} calculator</a>`]), 'Duty for an owner-occupier who is not a first home buyer, established home', ['l', 'l', 'r', 'l', 'l'])} />
+
+      <h2>What changed in 2026, state by state</h2>
+      <p>Most comparison tables online were built once and not revisited. These are the changes in force for contracts signed in 2026, each read on the office's own page, and already applied by the calculator.</p>
+      <ul>
+        <li><strong>Western Australia, 7 May 2026.</strong> The first home owner rate now exempts homes to {h.aud(P.wa.fhor.home_exempt_to)} and applies up to {h.aud(P.wa.fhor.home_cap)} statewide, replacing the separate Perth and regional caps; vacant land is exempt to {h.aud(P.wa.fhor.land_exempt_to)}. The grant cap rose to {h.aud(P.wa.fhog.cap_south)} south of the 26th parallel.</li>
+        <li><strong>Tasmania, 30 June 2026.</strong> The 100 % exemption for first home buyers of established homes up to {h.aud(P.tas.fhb_established_cap_until_end)} ended for transactions settling after that date. The first home owner grant for new homes is {h.aud(P.tas.fhog.amount)} for transactions from 1 July 2026, down from {h.aud(P.tas.fhog.previous_amount)}.</li>
+        <li><strong>ACT, 1 July 2026.</strong> The Home Buyer Concession Scheme lost both its income test and its property value limit: an eligible buyer pays no conveyance duty at any price. The pensioner scheme and the off-the-plan unit exemption lost their caps too, and a new exemption covers newly unit-titled homes bought from the developer.</li>
+        <li><strong>NSW, 1 July 2026.</strong> Transfer duty thresholds were indexed: the top general band now starts at {h.aud(P.nsw.brackets[5].from)} and premium duty at {h.aud(P.nsw.premium_threshold)}. The first home thresholds ({h.aud(P.nsw.fhbas.home_exempt_to)} and {h.aud(P.nsw.fhbas.home_cap)}) did not move.</li>
+        <li><strong>Queensland, 1 August 2026.</strong> The home, first home and first home (new home) concessions now require each buyer claiming them to be an Australian citizen, permanent resident or specified foreign retiree.</li>
+        <li><strong>Victoria.</strong> The temporary off-the-plan concession for strata apartments and townhouses, open to every buyer including investors, was extended to contracts signed before {h.date(P.vic.otp_temp.until)}.</li>
+        <li><strong>Northern Territory.</strong> The {h.aud(P.nt.fhog.amount)} HomeGrown Territory Grant and the {h.aud(P.nt.freshstart.amount)} FreshStart New Home Grant now run for contracts signed up to {h.date(P.nt.fhog.until)}.</li>
+        <li><strong>South Australia, 25 March 2026.</strong> Stamp duty relief of up to {h.aud(P.sa.seniors_max_relief)} for buyers aged 60 and over who downsize to a new home, an off-the-plan apartment or land to build on.</li>
+      </ul>
+      <p>The full list, with the old and new figures side by side, is in the {link('stamp-duty-changes-2026', '2026 changes guide')} wherever it is relevant to your purchase.</p>
+
+      <h2>Why the same home costs so much more in some states</h2>
+      <p>Duty is a percentage that rises with the price, but the eight scales were written at different times and with different aims. Victoria charges {h.pct(0.055)} of the whole value once a property passes {h.aud(P.vic.brackets[3].from)}; the ACT charges an owner-occupier only {h.pct(P.act.owner_brackets[0].rate, 2)} on the first {h.aud(P.act.owner_brackets[1].from)}, a rate its own tables show falling every year since 2021-22; South Australia still applies the scale RevenueSA published in 2022, with a top band from {h.aud(P.sa.brackets[8].from)} that ordinary homes now reach; the Northern Territory uses a formula rather than bands up to {h.aud(P.nt.formula.upto)}. Queensland and the ACT give every owner-occupier a lower scale; Victoria and Western Australia do so only at lower values, up to {h.aud(P.vic.ppr_to)} and {h.aud(P.wa.concessional_cap)}; NSW, South Australia and Tasmania have no owner-occupier rate at all.</p>
+      <Fragment set:html={h.table(['State', 'Investor', 'Home buyer', 'First home buyer'], owner800.map((r) => [`<a href="${hubHrefs[r.state]}">${STATE_INFO[r.state].short}</a>`, h.duty(r.state, 800000, 'investor'), h.aud(r.total), h.duty(r.state, 800000, 'first')]), 'Duty on an established home at $800,000, three buyer profiles, sorted by the home buyer column', ['l', 'r', 'r', 'r'])} />
+      <p>The gap between living in a home and renting it out is largest in the ACT, where an investor pays {h.duty('act', 800000, 'investor')} against {h.duty('act', 800000, 'owner')} for an owner-occupier, and in Queensland, where the home concession rate is {h.pct(P.qld.home_brackets[0].rate, 0)} on the first {h.aud(P.qld.home_brackets[1].from)}. The {link('investor-stamp-duty', 'investor guide')} goes through each state.</p>
+
+      <h2>First home buyers: where the concession stops</h2>
+      <p>The headline exemption thresholds hide the part that matters to most buyers: what happens just above them. NSW fades its concession over the next {h.aud(P.nsw.fhbas.home_cap - P.nsw.fhbas.home_exempt_to)}, Victoria over {h.aud(P.vic.fhb.cap - P.vic.fhb.exempt_to)}, Western Australia charges a steep ${h.num(P.wa.fhor.home_rate * 100, 2)} per $100 between {h.aud(P.wa.fhor.home_exempt_to)} and {h.aud(P.wa.fhor.home_cap)}, and Queensland deducts a fixed amount that drops by {h.aud(P.qld.first_home_table[0].deduct - P.qld.first_home_table[1].deduct)} every {h.aud(10000)} above {h.aud(700000)}. The table runs the engine at three prices.</p>
+      <Fragment set:html={h.table(['State', '$600,000', '$800,000', '$1,000,000', 'New home $800,000'], first750.map((r) => fhbRow(r.state)), 'Duty for a first home buyer, established home unless stated', ['l', 'r', 'r', 'r', 'r'])} />
+      <p>Every state's rules are on its first home page, and the {link('first-home-buyer-stamp-duty', 'first home buyer guide')} compares the residence requirements, which are where most concessions are later clawed back.</p>
+
+      <h2>Grants are paid on top, and only on new homes</h2>
+      <p>The First Home Owner Grant is a separate payment, not a duty discount, and in every state that still pays it the home must be new or substantially renovated. The amounts below are for a first home buyer paying {h.aud(600000)} for a new home; caps differ and are applied by the calculator.</p>
+      <Fragment set:html={h.table(['State', 'Grant', 'Scheme'], grantRows, 'Grant on a new home at $600,000, contract signed in 2026-27', ['l', 'r', 'l'])} />
+      <p>More detail, including Queensland's {h.aud(P.qld.fhog.amount)} and the Northern Territory's {h.aud(P.nt.fhog.amount)}, is in the {link('first-home-owner-grant', 'First Home Owner Grant guide')}.</p>
+
+      <h2>Foreign buyers</h2>
+      <p>Six jurisdictions add a surcharge for foreign persons, charged on the value of the share they acquire and on top of ordinary duty. Concessions for first home buyers and owner-occupiers generally require at least one Australian citizen or permanent resident, so a foreign buyer usually pays the general scale plus the surcharge.</p>
+      <Fragment set:html={h.table(['State', 'Surcharge', 'Name', 'Total on $1,000,000'], foreignRows, 'Foreign investor buying an established home, duty plus surcharge', ['l', 'r', 'l', 'r'])} />
+      <p>The {link('foreign-buyer-stamp-duty', 'foreign buyer guide')} explains who counts as foreign in each state, which is not the same test everywhere.</p>
+
+      <h2>How the calculation works</h2>
+      <p>Every state starts from the dutiable value. It then applies a sliding scale: a fixed amount for the bands below, plus a rate on the part of the value inside the current band. Most offices write the rate "for every $100, or part of $100", which means the amount above the band's floor is rounded up to the next hundred dollars before the rate applies; Victoria and the Northern Territory apply their rate to the exact amount. Victoria and the ACT switch to a flat percentage of the whole value at the top. Concessions are then applied the way each office applies them: a separate rate table (Queensland's home concession), a deduction (Queensland's first home amounts), a proportional fade (NSW, Victoria), a phase-in rate (Western Australia) or a full exemption (the ACT, South Australia and Queensland on new homes). The surcharge is added last, on the full value. Grants are shown apart because they are paid to you, not deducted from duty.</p>
+      <p>The engine was compared with Revenue NSW's and the State Revenue Office Victoria's calculators on a grid of prices on {displayDate(h.P.retrieved_at, 'en-AU')} and with the worked examples printed by the other offices. The <a href={route('method', lang)}>methodology page</a> lists every case, every source and its reading date, and the limits of the tool: one buyer profile for the whole purchase, residential property only, and the 2026-27 rules only.</p>
+    </section>
+  </article>
+</PageLayout>

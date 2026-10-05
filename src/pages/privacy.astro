@@ -1,0 +1,23 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import LegalIdentity from '../components/LegalIdentity.astro';
+import { CONTACT_EMAIL, LAST_UPDATED, LEGAL } from '../data/site-config';
+import { route } from '../i18n/routes';
+const lang = 'en';
+---
+<PageLayout title="Privacy policy: Stamp Duty AU and your purchase details" description="The price, state and buyer details you enter in this stamp duty calculator never leave your browser. What the host logs, your rights under the Privacy Act and the GDPR." lang={lang} noindex={true} breadcrumbs={[{ label: 'Privacy' }]} showAuthor={false}>
+  <div class="prose prose-slate max-w-none">
+    <h1>Privacy policy</h1>
+    <h2>Who is responsible</h2>
+    <LegalIdentity lang={lang} />
+    <h2>What the calculators do with your inputs</h2>
+    <p>Nothing leaves your device. The purchase price, state, buyer profile and options are processed by code running in your browser; they are not sent to a server, stored or linked to you. The link you can copy contains your inputs: share it only with people you choose.</p>
+    <h2>What the host records</h2>
+    <p>Like any web host, GitHub Pages records technical data for each request (IP address, date, page, browser). The publisher does not receive or use these logs for profiling. They are kept according to GitHub's own policy, which may involve processing in the United States.</p>
+    <h2>Messages you send</h2>
+    <p>If you email us, your address and message are used only to reply and are kept for three years after the last exchange.</p>
+    <h2>Your rights</h2>
+    <p>Under the Australian Privacy Principles (Privacy Act 1988) and, because the publisher is established in France, under the EU General Data Protection Regulation, you can ask what we hold about you, have it corrected or erased: write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. You may also complain to the Office of the Australian Information Commissioner or to the {LEGAL.supervisoryAuthority}.</p>
+    <p>See also the <a href={route('cookies', lang)}>cookies</a> page. Last updated: {LAST_UPDATED}.</p>
+  </div>
+</PageLayout>

@@ -1,0 +1,23 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { route } from '../i18n/routes';
+import { REVIEW_CYCLE_MONTHS } from '../data/site-config';
+const lang = 'en';
+---
+<PageLayout title="Editorial policy: how Stamp Duty AU checks every rate" description="How the stamp duty scales, concessions and grants on this site are read, dated, tested against official calculators and corrected, and what triggers an update in 2026-27." lang={lang} noindex={true} breadcrumbs={[{ label: 'Editorial policy' }]}>
+  <div class="prose prose-slate max-w-none">
+    <h1>Editorial policy</h1>
+    <h2>Only the revenue offices count as sources</h2>
+    <p>Every rate, threshold, concession and grant comes from the page of the office that administers it: Revenue NSW, the State Revenue Office Victoria, the Queensland Revenue Office, RevenueWA, RevenueSA, the State Revenue Office of Tasmania, the ACT Revenue Office and the Territory Revenue Office, or the Northern Territory Government site that hosts its calculator. Bank, broker and news pages are never used as a source, even when they are right.</p>
+    <h2>Every figure is dated</h2>
+    <p>Each source in the parameter file carries the date it was read. When an office's site refuses automated readers, the page is read through a dated web.archive.org capture of that same official page, and the capture date is shown on the <a href={route('method', lang)}>methodology page</a>.</p>
+    <h2>Tested before publication</h2>
+    <p>The engine is a set of pure functions with automated tests. Each test is either a worked example printed by an office or a result returned by an office's own calculator. A build that misses any of them by more than a few cents is not published.</p>
+    <h2>When we update</h2>
+    <p>NSW and Victoria change their scales or concessions with the state budget and on 1 July; Queensland, Western Australia and the ACT announced 2026 changes mid-year. We read the eight offices' news pages every month and every scale at least every {REVIEW_CYCLE_MONTHS} months. A change in force is reflected the week it is published.</p>
+    <h2>Corrections</h2>
+    <p>Errors reported through the <a href={route('contact', lang)}>contact page</a> are checked against the source within five working days. A confirmed error is fixed in the parameter file, which corrects every page that uses the value.</p>
+    <h2>Independence</h2>
+    <p>No lender, broker, agent or conveyancer pays for a mention or a ranking. Pages never recommend a provider.</p>
+  </div>
+</PageLayout>
