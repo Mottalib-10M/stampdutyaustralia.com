@@ -1,6 +1,6 @@
 /** Configuration centrale du site (générée par new-site.py). */
-export const SITE_URL = "https://au-stamp-duty.example";
-export const SITE_NAMES: Record<string, string> = {"en": "Stamp Duty AU"};
+export const SITE_URL = "https://stampdutyaustralia.com";
+export const SITE_NAMES: Record<string, string> = {"en": "Stamp Duty Australia"};
 export const LANG_TAGS: Record<string, string> = {"en": "en-AU"};
 export const OG_LOCALES: Record<string, string> = {"en": "en_AU"};
 export const LOCALE_TAG = 'en-AU';
@@ -16,7 +16,7 @@ export const AUTHOR_DESC: Record<string, string> = {"en": "Radif Partners mainta
  *  themes reellement traites par le site, pas une liste de mots-cles : un sujet
  *  declare ici sans page qui le couvre est une declaration fausse. */
 export const KNOWS_ABOUT: Record<string, string[]> = {"en": ["Transfer duty (stamp duty) in the Australian states and territories", "First home buyer duty exemptions and concessions", "First Home Owner Grants", "Foreign purchaser duty surcharges", "Off-the-plan duty concessions", "Pensioner and downsizer duty concessions", "Dutiable value of residential property"]};
-export const CONTACT_EMAIL = "contact@au-stamp-duty.example";
+export const CONTACT_EMAIL = "contact@stampdutyaustralia.com";
 export const THEME_COLOR = '#012169';
 export const LOGO_SYMBOL = 'maison';
 export const BING_VERIFY_CODE = '';

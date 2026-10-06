@@ -3,4 +3,4 @@ Allow: /
 
 Disallow: /*?*
 
-Sitemap: https://au-stamp-duty.example/sitemap-index.xml
+Sitemap: https://stampdutyaustralia.com/sitemap-index.xml

@@ -7,10 +7,10 @@ import { displayDate } from '../lib/format';
 const lang = 'en';
 const jsonLd = [organizationSchema(lang), personSchema(lang), profilePageSchema({ path: route('about', lang), lang })];
 ---
-<PageLayout title="Stamp Duty AU, the publisher: who checks the eight scales" description="Who publishes this stamp duty calculator, why it puts all eight Australian states and territories in one tool, how it is funded and how to report errors, 2026." lang={lang} jsonLd={jsonLd} breadcrumbs={[{ label: 'About' }]}>
+<PageLayout title="Stamp Duty Australia publisher: who checks the eight scales" description="Who publishes this stamp duty calculator, why it puts all eight Australian states and territories in one tool, how it is funded and how to report errors, 2026." lang={lang} jsonLd={jsonLd} breadcrumbs={[{ label: 'About' }]}>
   <div class="prose prose-slate max-w-none">
     <h1>About this calculator</h1>
-    <p>Stamp Duty AU is published by {AUTHOR_NAME}, an independent publisher of calculators. It exists for one reason: a person buying a home in Australia should be able to see, in one place and at today's rates, what each state and territory would charge on the same purchase, with the first home concessions applied exactly as the revenue office applies them.</p>
+    <p>Stamp Duty Australia is published by {AUTHOR_NAME}, an independent publisher of calculators. It exists for one reason: a person buying a home in Australia should be able to see, in one place and at today's rates, what each state and territory would charge on the same purchase, with the first home concessions applied exactly as the revenue office applies them.</p>
     <h2>Why one tool for eight jurisdictions</h2>
     <p>Each revenue office publishes its own calculator, and each of them answers one state only. Bank and broker calculators cover more ground but rarely say which rate year they use, and several still apply schemes that have closed: Tasmania's established-home exemption ended for settlements after 30 June 2026, the ACT removed its income test and value cap on 1 July 2026, and Western Australia lifted its first home thresholds on 7 May 2026. This site reads the eight offices' pages, records the date of each reading, and recalculates every page from that single file of parameters.</p>
     <p>This site does better than the first Google result because it puts all eight jurisdictions in one calculator at the 2026-27 rates, applies the first home concessions exactly as each office does, rounding included, and shows on the same screen what changed in 2026.</p>
