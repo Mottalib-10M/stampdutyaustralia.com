@@ -5,7 +5,7 @@ import { CONTACT_EMAIL, LAST_UPDATED, LEGAL } from '../data/site-config';
 import { route } from '../i18n/routes';
 const lang = 'en';
 ---
-<PageLayout title="Privacy policy: Stamp Duty Australia and your purchase details" description="The price, state and buyer details you enter never leave your browser. What the host logs, what Microsoft Clarity measures and how to opt out, your Privacy Act and GDPR rights." lang={lang} noindex={true} breadcrumbs={[{ label: 'Privacy' }]} showAuthor={false}>
+<PageLayout title="Privacy policy: Stamp Duty Australia and your purchase details" description="The price, state and buyer details you enter never leave your browser. No cookies, no personal data kept by us: server logs and anonymous stability monitoring. Your rights." lang={lang} noindex={true} breadcrumbs={[{ label: 'Privacy' }]} showAuthor={false}>
   <div class="prose prose-slate max-w-none">
     <h1>Privacy policy</h1>
     <h2>Who is responsible</h2>
@@ -14,8 +14,8 @@ const lang = 'en';
     <p>Nothing leaves your device. The purchase price, state, buyer profile and options are processed by code running in your browser; they are not sent to a server, stored or linked to you. The link you can copy contains your inputs: share it only with people you choose.</p>
     <h2>What the host records</h2>
     <p>Like any web host, GitHub Pages records technical data for each request (IP address, date, page, browser). The publisher does not receive or use these logs for profiling. They are kept according to GitHub's own policy, which may involve processing in the United States.</p>
-    <h2>Audience measurement with Microsoft Clarity</h2>
-    <p>The site uses Microsoft Clarity, provided by Microsoft Ireland Operations Limited, One Microsoft Place, Dublin, to understand which pages are read and where visitors leave. It collects clicks, scrolling, the pages viewed with their address, device and browser type and an approximate location derived from the IP address; your calculator inputs are masked in the browser, though a landing address that comes from a shared link is recorded as it is. A notice on your first visit tells you this and lets you opt out (APP 5); under the GDPR the basis is the publisher’s legitimate interest in improving the site (Article 6(1)(f)), and opting out is your objection. Microsoft keeps recordings for 30 days and aggregated data for up to 13 months, and may process it in the United States. Cookie details are on the <a href={route('cookies', lang)}>cookies</a> page.</p>
+    <h2>Anonymous stability monitoring, no cookies</h2>
+    <p>The site sets no cookie and the publisher records no personal data about you. To keep the site working, it uses Microsoft Clarity, provided by Microsoft Ireland Operations Limited, One Microsoft Place, Dublin, in cookie-free mode: errors, loading times, clicks that lead nowhere and scrolling are measured for each page view, without a cookie and without linking visits; page content and your inputs are masked. Microsoft receives the technical data of the request, including the IP address from which an approximate location is derived, keeps recordings for 30 days and aggregated data for up to 13 months, and may process it in the United States. Under the GDPR the basis is legitimate interest in a working site (Article 6(1)(f)); this page is the notice APP 5 requires. You can object by blocking clarity.ms or writing to us. Cookie details are on the <a href={route('cookies', lang)}>cookies</a> page.</p>
     <h2>Messages you send</h2>
     <p>If you email us, your address and message are used only to reply and are kept for three years after the last exchange.</p>
     <h2>Your rights</h2>

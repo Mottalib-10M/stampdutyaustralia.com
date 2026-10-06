@@ -3,14 +3,12 @@ import PageLayout from '../layouts/PageLayout.astro';
 import { route } from '../i18n/routes';
 const lang = 'en';
 ---
-<PageLayout title="Cookies on Stamp Duty Australia: what this site stores and why" description="Cookies on this stamp duty site: none from the calculators, Microsoft Clarity for audience measurement with a notice and opt-out, what the share link holds and how to clear it." lang={lang} noindex={true} breadcrumbs={[{ label: 'Cookies' }]} showAuthor={false}>
+<PageLayout title="Cookies on Stamp Duty Australia: what this site stores and why" description="Cookies on this stamp duty site: none. Stability is monitored anonymously with Microsoft Clarity in cookie-free mode; what the share link holds and how to clear it." lang={lang} noindex={true} breadcrumbs={[{ label: 'Cookies' }]} showAuthor={false}>
   <div class="prose prose-slate max-w-none">
     <h1>Cookies</h1>
-    <p>The calculators themselves set no cookie: they run in your browser and keep nothing once the tab is closed. The site sets no advertising cookie.</p>
-    <h2>Audience measurement: Microsoft Clarity</h2>
-    <p>To see which state pages and concessions people actually use, the site loads Microsoft Clarity, from Microsoft Ireland Operations Limited. A notice at the bottom of the page says so on your first visit, as Australian Privacy Principle 5 expects, and lets you opt out. Clarity records anonymous sessions and heatmaps: pages opened, clicks and scrolling. The price, state and buyer details you enter are masked in the browser before anything is sent. Its cookies are <code>_clck</code> (one year) and <code>_clsk</code> (one day); Microsoft may set <code>MUID</code> and <code>CLID</code> on its own domains.</p>
-    <p>Your answer to the notice is kept in your browser’s <code>localStorage</code> as <code>consent-choice</code>. Choose “Opt out”, now or later through “Cookie settings” in the footer, and Clarity is no longer loaded; clearing the site data in your browser removes cookies already set.</p>
-    <p>When you change a calculator, the address bar is updated with your inputs so that you can copy a link to the same result. That link is not sent anywhere by the site; it is shared only if you share it.</p>
-    <p>The <a href={route('privacy', lang)}>privacy policy</a> explains who receives Clarity data and for how long.</p>
+    <p>No page of the site sets a cookie, advertising or otherwise. The calculators run in your browser and keep nothing once the tab is closed.</p>
+    <h2>Anonymous stability monitoring</h2>
+    <p>To find broken pages, script errors, slow loading and buttons that do not respond, the site loads Microsoft Clarity, from Microsoft Ireland Operations Limited, in its cookie-free mode. Clarity then sets no cookie (no <code>_clck</code>, <code>_clsk</code>, <code>MUID</code> or <code>CLID</code>), gives every page view a one-off identifier and does not link visits. The price, state and buyer details you enter, and page content, are masked before anything is sent. As nothing is stored on your device, there is no cookie banner. Blocking the clarity.ms domain stops this monitoring without affecting the calculators.</p>
+    <p>The <a href={route('privacy', lang)}>privacy policy</a> explains who receives the monitoring data and for how long.</p>
   </div>
 </PageLayout>
