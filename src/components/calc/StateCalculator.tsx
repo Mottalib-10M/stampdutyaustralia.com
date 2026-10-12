@@ -3,7 +3,7 @@
  * `lib/engine/states.ts`. Hydration (RECETTE §17.5): first render uses the build defaults; the shared
  * link is read in useEffect only. The state written to the address bar never leaves the browser.
  */
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import NumberField from '../ui/NumberField';
 import SelectField from '../ui/SelectField';
 import Toggle from '../ui/Toggle';
@@ -56,11 +56,21 @@ export default function StateCalculator({ state, methodHref, defaultPrice = 7500
   const showNtPkg = state === 'nt' && buyer !== 'investor' && property === 'new';
   const effective = r.price > 0 ? r.total / r.price : 0;
 
+  // Phone: while the result card is below the screen, a bar pinned to the bottom shows the key figure (RECETTE §5, 2026-10-11).
+  const card = useRef<HTMLDivElement>(null);
+  const [below, setBelow] = useState(false);
+  useEffect(() => {
+    const el = card.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(([e]) => setBelow(!e.isIntersecting && e.boundingClientRect.top > 0));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   const copy = async () => { try { await navigator.clipboard.writeText(window.location.href); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch { /* clipboard refused: the address bar still holds the link */ } };
 
   return (
-    <div className="rechner rounded-xl border border-navy-200 bg-white p-4 sm:p-6" data-chrome>
-      <form className="grid gap-x-4 gap-y-4 sm:grid-cols-2" onSubmit={(e) => e.preventDefault()}>
+    <div className="rechner grid gap-6 rounded-xl border border-navy-200 bg-white p-4 sm:p-6 lg:grid-cols-2 lg:items-start" data-chrome>
+      <form className="grid content-start gap-x-4 gap-y-4 sm:grid-cols-2" onSubmit={(e) => e.preventDefault()}>
         <NumberField id={`${state}-price`} label="Price or market value, whichever is higher" value={price} onChange={setPrice} unit="$" max={50_000_000} />
         <SelectField id={`${state}-buyer`} label="Who is buying" value={buyer} onChange={(v) => setBuyer(v as Buyer)} options={BUYER_OPTS} />
         <SelectField id={`${state}-type`} label="What you are buying" value={property} onChange={(v) => setProperty(v as Property)} options={PROP_OPTS} />
@@ -73,7 +83,7 @@ export default function StateCalculator({ state, methodHref, defaultPrice = 7500
         {showNtPkg && <Toggle id="nt-package" label="House and land package from a builder?" options={YN} value={pkg ? 'y' : 'n'} onChange={(v) => setPkg(v === 'y')} />}
       </form>
 
-      <div aria-live="polite" className="mt-6 rounded-lg border-l-4 border-accent-500 bg-accent-50/60 p-4 sm:p-5">
+      <div ref={card} aria-live="polite" data-resultat className="rounded-lg border-l-4 border-accent-500 bg-accent-50/60 p-4 sm:p-5">
         <p className="text-sm font-medium text-navy-700">{info.short} {info.dutyName}{r.surcharge > 0 ? ` and ${info.surchargeName}` : ''}</p>
         <p className="tabular-nums mt-1 text-4xl font-bold text-navy-900">{aud(r.total)}</p>
         <p className="mt-1 text-sm text-navy-700">{r.rule}{r.price > 0 ? ` · ${(effective * 100).toLocaleString('en-AU', { maximumFractionDigits: 2 })} % of the price` : ''}</p>
@@ -93,6 +103,13 @@ export default function StateCalculator({ state, methodHref, defaultPrice = 7500
           <button type="button" onClick={copy} className="rounded-md border border-navy-300 bg-white px-3 py-1.5 font-medium text-navy-800 hover:bg-navy-50">{copied ? 'Link copied' : 'Copy link to this result'}</button>
           <button type="button" onClick={() => window.print()} className="rounded-md border border-navy-300 bg-white px-3 py-1.5 font-medium text-navy-800 hover:bg-navy-50">Print</button>
         </div>
+        {below && (
+          <button type="button" aria-hidden="true" tabIndex={-1} onClick={() => card.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+            className="no-print fixed inset-x-0 bottom-0 z-40 flex items-baseline justify-between gap-3 border-t border-accent-200 bg-accent-50 px-4 py-3 text-left shadow-lg lg:hidden">
+            <span className="text-sm font-medium text-navy-700">{info.short} {info.dutyName}</span>
+            <span className="tabular-nums text-xl font-bold text-navy-900">{aud(r.total)}</span>
+          </button>
+        )}
       </div>
     </div>
   );
