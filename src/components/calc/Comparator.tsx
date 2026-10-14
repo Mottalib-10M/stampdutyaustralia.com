@@ -34,7 +34,7 @@ export default function Comparator({ hubHrefs, methodHref }: Props) {
 
   return (
     <div className="rechner rounded-xl border border-navy-200 bg-white p-4 sm:p-6" data-chrome data-outil>
-      <form className="grid gap-x-4 gap-y-4 sm:grid-cols-2 lg:grid-cols-4" onSubmit={(e) => e.preventDefault()}>
+      <form className="grid content-start gap-x-4 gap-y-4 sm:grid-cols-2 lg:grid-cols-4" onSubmit={(e) => e.preventDefault()}>
         <NumberField id="cmp-price" label="Purchase price" value={price} onChange={setPrice} unit="$" max={50_000_000} />
         <SelectField id="cmp-buyer" label="Buyer" value={buyer} onChange={(v) => setBuyer(v as Buyer)} options={[{ value: 'first', label: 'First home buyer' }, { value: 'owner', label: 'Home buyer, not first' }, { value: 'investor', label: 'Investor' }]} />
         <SelectField id="cmp-type" label="Property" value={property} onChange={(v) => setProperty(v as Property)} options={[{ value: 'established', label: 'Established home' }, { value: 'new', label: 'New home' }, { value: 'vacant', label: 'Vacant land' }, { value: 'offplan', label: 'Off the plan' }]} />
